@@ -1,21 +1,57 @@
+//
+// !!! WARNING !!! AUTO-GENERATED FILE!
+// PLEASE DO NOT MODIFY IT AND USE "platformio.ini":
+// https://docs.platformio.org/page/projectconf/section_env_build.html#build-flags
+//
 {
     "configurations": [
         {
-            "name": "Win32",
+            "name": "PlatformIO",
             "includePath": [
-                "C:/Users/dyand/Documents/Arduino/**",
-                "C:/Program Files (x86)/Arduino/libraries/**"
+                "D:/Documents/GitHub/EMS_Lab3Group7/include",
+                "D:/Documents/GitHub/EMS_Lab3Group7/src",
+                "D:/Documents/GitHub/EMS_Lab3Group7/.pio/libdeps/uno/LiquidCrystal_I2C",
+                "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/cores/arduino",
+                "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/variants/standard",
+                "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                ""
             ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "D:/Documents/GitHub/EMS_Lab3Group7/include",
+                    "D:/Documents/GitHub/EMS_Lab3Group7/src",
+                    "D:/Documents/GitHub/EMS_Lab3Group7/.pio/libdeps/uno/LiquidCrystal_I2C",
+                    "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/cores/arduino",
+                    "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/variants/standard",
+                    "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                    "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                    "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                    "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                    "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                    ""
+                ]
+            },
             "defines": [
-                "_DEBUG",
-                "UNICODE",
-                "_UNICODE"
+                "PLATFORMIO=60115",
+                "ARDUINO_AVR_UNO",
+                "F_CPU=16000000L",
+                "ARDUINO_ARCH_AVR",
+                "ARDUINO=10808",
+                "__AVR_ATmega328P__",
+                ""
             ],
-            "windowsSdkVersion": "10.0.22000.0",
-            "compilerPath": "cl.exe",
-            "cStandard": "c17",
-            "cppStandard": "c++17",
-            "intelliSenseMode": "windows-msvc-x64"
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++11",
+            "compilerPath": "C:/Users/BenRP/.platformio/packages/toolchain-atmelavr/bin/avr-gcc.exe",
+            "compilerArgs": [
+                "-mmcu=atmega328p",
+                ""
+            ]
         }
     ],
     "version": 4
