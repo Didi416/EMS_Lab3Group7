@@ -1,18 +1,33 @@
-#include <Arduino.h>
+#include "arduino.h"
+#include <Wire.h>              // for I2C
+#include <LiquidCrystal_I2C.h> // the LCD display over I2C
+#include <SPI.h> //communication with SPI devices
+#define SS_PIN 45
+#define RST_PIN 29  
 
-// put function declarations here:
-int myFunction(int, int);
+int xValue = 0;
+int yValue = 0;
+int zValue = 0;
+const int testReadX = A0;
+const int testReadY = A1;
+const int testReadZ = A2;
 
 void setup() {
   // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  Serial.begin(9600);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-}
+  xValue = analogRead(testReadX);
+  yValue = analogRead(testReadY);
+  zValue = analogRead(testReadZ);
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+//  Serial.print("x-axis = ");
+  Serial.println(xValue);
+//  Serial.print("y-axis = ");
+  Serial.println(yValue);
+//  Serial.print("z-axis = ");
+  Serial.println(zValue);
+  delay(2);
 }
