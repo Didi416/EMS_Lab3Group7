@@ -10,13 +10,14 @@
             "includePath": [
                 "D:/Documents/GitHub/EMS_Lab3Group7/include",
                 "D:/Documents/GitHub/EMS_Lab3Group7/src",
+                "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
                 "D:/Documents/GitHub/EMS_Lab3Group7/.pio/libdeps/uno/LiquidCrystal_I2C",
+                "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                 "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/cores/arduino",
                 "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/variants/standard",
-                "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                "D:/Documents/GitHub/EMS_Lab3Group7/.pio/libdeps/uno/Unity/src",
                 "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                 "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/HID/src",
-                "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
                 "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
                 ""
             ],
@@ -25,13 +26,14 @@
                 "path": [
                     "D:/Documents/GitHub/EMS_Lab3Group7/include",
                     "D:/Documents/GitHub/EMS_Lab3Group7/src",
+                    "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
                     "D:/Documents/GitHub/EMS_Lab3Group7/.pio/libdeps/uno/LiquidCrystal_I2C",
+                    "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                     "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/cores/arduino",
                     "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/variants/standard",
-                    "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                    "D:/Documents/GitHub/EMS_Lab3Group7/.pio/libdeps/uno/Unity/src",
                     "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                     "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/HID/src",
-                    "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
                     "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
                     ""
                 ]
