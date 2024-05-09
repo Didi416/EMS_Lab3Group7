@@ -8,14 +8,13 @@
         {
             "name": "PlatformIO",
             "includePath": [
-                "D:/Documents/GitHub/EMS_Lab3Group7/include",
-                "D:/Documents/GitHub/EMS_Lab3Group7/src",
+                "c:/Users/BenRP/OneDrive - UTS/GitHub/EMS_Lab3Group7/include",
+                "c:/Users/BenRP/OneDrive - UTS/GitHub/EMS_Lab3Group7/src",
                 "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
-                "D:/Documents/GitHub/EMS_Lab3Group7/.pio/libdeps/uno/LiquidCrystal_I2C",
+                "c:/Users/BenRP/OneDrive - UTS/GitHub/EMS_Lab3Group7/.pio/libdeps/uno/LiquidCrystal_I2C",
                 "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                 "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/cores/arduino",
                 "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/variants/standard",
-                "D:/Documents/GitHub/EMS_Lab3Group7/.pio/libdeps/uno/Unity/src",
                 "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                 "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/HID/src",
                 "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
@@ -24,14 +23,13 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "D:/Documents/GitHub/EMS_Lab3Group7/include",
-                    "D:/Documents/GitHub/EMS_Lab3Group7/src",
+                    "c:/Users/BenRP/OneDrive - UTS/GitHub/EMS_Lab3Group7/include",
+                    "c:/Users/BenRP/OneDrive - UTS/GitHub/EMS_Lab3Group7/src",
                     "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
-                    "D:/Documents/GitHub/EMS_Lab3Group7/.pio/libdeps/uno/LiquidCrystal_I2C",
+                    "c:/Users/BenRP/OneDrive - UTS/GitHub/EMS_Lab3Group7/.pio/libdeps/uno/LiquidCrystal_I2C",
                     "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                     "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/cores/arduino",
                     "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/variants/standard",
-                    "D:/Documents/GitHub/EMS_Lab3Group7/.pio/libdeps/uno/Unity/src",
                     "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                     "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/HID/src",
                     "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
@@ -39,7 +37,7 @@
                 ]
             },
             "defines": [
-                "PLATFORMIO=60115",
+                "PLATFORMIO=60114",
                 "ARDUINO_AVR_UNO",
                 "F_CPU=16000000L",
                 "ARDUINO_ARCH_AVR",

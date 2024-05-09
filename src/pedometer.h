@@ -4,8 +4,13 @@
 
 class Pedometer {
     public:
-        Pedometer(void);
+        Pedometer(); //default constructor
+        Pedometer(int xPin_, int yPin_, int zPin_); //custom pin constructor
         int StepAlgorithm (int x, int y, int z, int stepsCount);
+        void Pedometer::getAxisData(int& x, int& y, int& z);
+    private:
+        int xPin_, yPin_, zPin_;
+        
 };
 
 #endif //PEDOMETER_H
