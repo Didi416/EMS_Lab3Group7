@@ -14,8 +14,12 @@ Pedometer::Pedometer(int xPin, int yPin, int zPin)
     windowMax(0), windowMin(0),
     indexWindowMax(0), indexWindowMin(0)
 {
-  memset(magnitudes, 0, sizeof(magnitudes)); // Initialize magnitudes
-  memset(bufferDynamicThresholdArray, INITIAL_THRESHOLD, sizeof(bufferDynamicThresholdArray)); // Initialize buffer
+  for (int i = 0; i < THRESHOLD_ORDER; i++) {
+    bufferDynamicThresholdArray[i] = INITIAL_THRESHOLD;
+  }
+  for (int i = 0; i < WINDOW_SIZE; i++) {
+    magnitudes[i] = 0;
+  }
 }
 
 void Pedometer::getAxisData(int &x, int &y, int &z) {
@@ -36,8 +40,8 @@ void Pedometer::updateMagnitudes(float magnitude) {
 void Pedometer::findMaxAndMin() {
   windowMax = magnitudes[0];
   windowMin = magnitudes[0];
-  int indexWindowMax = 0;
-  int indexWindowMin = 0;
+  indexWindowMax = 0;
+  indexWindowMin = 0;
 
   for (int i = 1; i < WINDOW_SIZE; i++) {
     if (magnitudes[i] > windowMax) {
@@ -53,11 +57,17 @@ void Pedometer::findMaxAndMin() {
 void Pedometer::updateThresholdLevel() {
   // Calculate new threshold based on last min and max
   int newThreshold = (lastMax + lastMin) / 2;
+
   bufferDynamicThreshold -= bufferDynamicThresholdArray[indexThreshold];
   bufferDynamicThreshold += newThreshold;
 
   oldThreshold = bufferDynamicThreshold / THRESHOLD_ORDER; // Updated old threshold
   bufferDynamicThresholdArray[indexThreshold] = newThreshold; // Update buffer
+  // for (int i = 0; i < THRESHOLD_ORDER; i++) {
+  //   Serial.print(bufferDynamicThresholdArray[i]);
+  //   Serial.print(" ");
+  // }
+  Serial.println();
   indexThreshold = (indexThreshold + 1) % THRESHOLD_ORDER; // Increment buffer index
 }
 
@@ -116,21 +126,21 @@ int Pedometer::stepAlgorithm(int x, int y, int z, int _stepsCount) {
     }
   }
 
-  int upperSensitivity = oldThreshold + (SENSITIVITY / 2);
-  int lowerSensitivity = oldThreshold - (SENSITIVITY / 2);
+  // int upperSensitivity = oldThreshold + (SENSITIVITY / 2);
+  // int lowerSensitivity = oldThreshold - (SENSITIVITY / 2);
 
-  // Send data to the Serial Plotter
-  Serial.print(stepsCount);
-  Serial.print(",");
-  Serial.print(possibleStepsCount);
-  Serial.print(",");
-  Serial.print(oldThreshold);
-  Serial.print(",");
-  Serial.print(upperSensitivity);
-  Serial.print(",");
-  Serial.print(lowerSensitivity);
-  Serial.println(); // End of line to separate readings
-
+  // // Send data to the Serial Plotter
+  // Serial.print(stepsCount);
+  // Serial.print(" ");
+  // Serial.print(possibleStepsCount);
+  // Serial.print("Values: ");
+  // Serial.print(" ");
+  // Serial.print(oldThreshold);
+  // Serial.print(" ");
+  // Serial.print(upperSensitivity);
+  // Serial.print(" ");
+  // Serial.print(lowerSensitivity);
+  // Serial.print(" ");
 
   return stepsCount; // Return the current step count
 }

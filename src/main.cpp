@@ -14,7 +14,7 @@ const int testReadY = A1;
 const int testReadZ = A2;
 
 Pedometer pedometer;
-int time = 0;
+double time = 1;
 
 void setup() {
   // put your setup code here, to run once:
@@ -23,21 +23,24 @@ void setup() {
 }
 
 void loop() {
-//   // put your main code here, to run repeatedly:
-//   xValue = analogRead(testReadX);
-//   yValue = analogRead(testReadY);
-//   zValue = analogRead(testReadZ);
+  // put your main code here, to run repeatedly:
+  xValue = analogRead(testReadX);
+  yValue = analogRead(testReadY);
+  zValue = analogRead(testReadZ);
 
-// //  Serial.print("x-axis = ");
-//   Serial.println(xValue);
-// //  Serial.print("y-axis = ");
-//   Serial.println(yValue);
-// //  Serial.print("z-axis = ");
-//   Serial.println(zValue);
-//   delay(2);
-
-int sineValue = 60 * sin(2 * M_PI * 10 * (time += 0.1));
-int stepCount = pedometer.stepAlgorithm(0, 0, sineValue, 0);
-Serial.println(sineValue);
+//  Serial.print("x-axis = ");
+  Serial.println(xValue);
+//  Serial.print("y-axis = ");
+  Serial.println(yValue);
+//  Serial.print("z-axis = ");
+  Serial.println(zValue);
+  delay(2);
+// time += 0.1;
+// int sineValue = 60 * sin(2 * M_PI * 1 * time) + 60;
+// pedometer.stepAlgorithm(0, 0, sineValue, 0);
+// Serial.print(" ");
+// Serial.print(sineValue);
+// Serial.println();
+// delay(100);
 
 }
