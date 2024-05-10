@@ -1,216 +1,137 @@
-#include "Arduino.h"
 #include "pedometer.h"
 
-const int windowSize = 10;
-static float magnitudes[windowSize] = {0};
-int minMaxSampleCounter= 0; //Count the samples between max and min to discard step if it would be very long.
-float magnitude = 0;
-static int consecutiveSteps = 0;
-int maxFlag = 0;
-
-int index, indexWindowMax, indexWindowMin, indexThreshold;
-
-// maxFlag --> Maximum detected
-// thresholdFlag --> it indicates that the Threshold has been overcome
-// thresholdCounterFlag --> it indicates the number of times that the Threshold has been overcome
-int maxFlag, thresholdFlag, thresholdCounterFlag;
-
-bool regulationMode;
-
-int lastMin, lastMax;
-int windowMax, windowMin;
-
-int difference;
-
-int sensitivity = 6;
-int newThreshold, oldThreshold;
-int thresholdOrder = 4;
-int bufferDynamicThreshold = 60 * thresholdOrder; // bufferDynamicThreshold--> Threshold Buffer
-int buffer_dynamic_threshold[4]; // -->Buffer to store the Threshold data 
-
-int stepToStepSamples;
-
-int stepsCount, possibleStepsCount;
-
-int oneSecond = 50; //number of cycles ina second
-
-
 Pedometer::Pedometer() {
-    Pedometer(0, 1, 2);
+    Pedometer(0, 1, 2); // Initialize buffer 
 }
 
-Pedometer::Pedometer(int xPin, int yPin, int zPin) {
-    xPin_ = xPin;
-    yPin_ = yPin;
-    zPin_ = zPin;
+Pedometer::Pedometer(int xPin, int yPin, int zPin) 
+  : xPin_(xPin), yPin_(yPin), zPin_(zPin), index(0), 
+    indexThreshold(0), bufferDynamicThreshold(INITIAL_THRESHOLD * THRESHOLD_ORDER),
+    stepsCount(0), possibleStepsCount(0), 
+    minMaxSampleCounter(0), stepToStepSamples(0), 
+    maxFlag(0), thresholdFlag(0), thresholdCounterFlag(0), 
+    oldThreshold(INITIAL_THRESHOLD), regulationMode(false),
+    windowMax(0), windowMin(0),
+    indexWindowMax(0), indexWindowMin(0)
+{
+  memset(magnitudes, 0, sizeof(magnitudes)); // Initialize magnitudes
+  memset(bufferDynamicThresholdArray, INITIAL_THRESHOLD, sizeof(bufferDynamicThresholdArray)); // Initialize buffer
 }
 
-void Pedometer::getAxisData(int& x, int& y, int& z) {
-    // Code to read the 3 axis data from the sensor
-    // Assign the values to the provided variables
-    // For example:
-    x = analogRead(xPin_);
-    y = analogRead(yPin_);  
-    z = analogRead(zPin_);
+void Pedometer::getAxisData(int &x, int &y, int &z) {
+  x = analogRead(xPin_); // Read sensor data
+  y = analogRead(yPin_);  
+  z = analogRead(zPin_);
 }
 
-int Pedometer::StepAlgorithm(int _x, int _y, int _z, int _stepsCount) {
-    stepsCount = _stepsCount;
+int Pedometer::calculateMagnitude(int x, int y, int z) {
+  return sqrt(x * x + y * y + z * z); // Calculate magnitude
+}
 
-    // Calculate the magnitude of the acceleration vector
-    magnitude = sqrt(_x * _x + _y * _y + _z * _z);
+void Pedometer::updateMagnitudes(float magnitude) {
+  magnitudes[index] = magnitude; // Update circular buffer
+  index = (index + 1) % WINDOW_SIZE; // Increment index with wrapping
+}
 
-    // Replace the oldest magnitude with the new one
-    magnitudes[index] = magnitude;
-    index = (index + 1) % windowSize;
+void Pedometer::findMaxAndMin() {
+  windowMax = magnitudes[0];
+  windowMin = magnitudes[0];
+  int indexWindowMax = 0;
+  int indexWindowMin = 0;
 
-    //find max
-    windowMax = magnitudes[0];
-    indexWindowMax = 0;
-    for (int i = 1; i < windowSize; i++) {
-        if (magnitudes[index] > windowMax) {
-            windowMax = magnitudes[i];
-            indexWindowMax = i;
-        }
+  for (int i = 1; i < WINDOW_SIZE; i++) {
+    if (magnitudes[i] > windowMax) {
+      windowMax = magnitudes[i];
+      indexWindowMax = i;
+    } else if (magnitudes[i] < windowMin) {
+      windowMin = magnitudes[i];
+      indexWindowMin = i;
     }
+  }
+}
 
-    //find min
-    windowMin = magnitudes[0];
-    indexWindowMin = 0;
-    for (int i = 1; i < windowSize; i++) {
-        if (magnitudes[index] < windowMin) {
-            windowMin = magnitudes[i];
-            indexWindowMin = i;
-        }
+void Pedometer::updateThresholdLevel() {
+  // Calculate new threshold based on last min and max
+  int newThreshold = (lastMax + lastMin) / 2;
+  bufferDynamicThreshold -= bufferDynamicThresholdArray[indexThreshold];
+  bufferDynamicThreshold += newThreshold;
+
+  oldThreshold = bufferDynamicThreshold / THRESHOLD_ORDER; // Updated old threshold
+  bufferDynamicThresholdArray[indexThreshold] = newThreshold; // Update buffer
+  indexThreshold = (indexThreshold + 1) % THRESHOLD_ORDER; // Increment buffer index
+}
+
+int Pedometer::stepAlgorithm(int x, int y, int z, int _stepsCount) {
+  // Calculate acceleration magnitude
+  float magnitude = calculateMagnitude(x, y, z);
+
+  // Update magnitudes in the rolling window
+  updateMagnitudes(magnitude);
+
+  // Find the max and min in the current window
+  findMaxAndMin();
+
+  if (maxFlag == 0) { 
+    // Check if the current index corresponds to the middle of the window
+    int expectedMaxIndex = (index + (WINDOW_SIZE / 2)) % WINDOW_SIZE;
+    if (indexWindowMax == expectedMaxIndex) {
+      maxFlag = 1; // Flag that we found a max
+      lastMax = windowMax; // Store the last max
+      minMaxSampleCounter = 0; // Reset the sample counter
     }
+  } else {
+    // If the min index matches the expected position, we've found the min
+    int expectedMinIndex = (index + (WINDOW_SIZE / 2)) % WINDOW_SIZE;
+    if (indexWindowMin == expectedMinIndex) {
+      lastMin = windowMin; // Update the last min
+      maxFlag = 0; // Reset max flag
+      minMaxSampleCounter = 0; // Reset sample counter
 
-    if (maxFlag == 0) { 
-        // Now, we try to know if the Window max is in the middle of the window,
-        //  in this case I will mark it as a max
-        if (indexWindowMax == ((index + (windowSize/2)) % windowSize)) { 
-            maxFlag = 1;
-            lastMax = windowMax;
-            minMaxSampleCounter = 0;
+      int difference = lastMax - lastMin; // Calculate the difference
+
+      if (difference > SENSITIVITY) {
+        // The detected difference is significant, update threshold
+        updateThresholdLevel();
+
+        // If the new data falls within the threshold and sensitivity, consider it a step
+        if ((lastMax > (oldThreshold + (SENSITIVITY / 2))) && (lastMin < (oldThreshold - (SENSITIVITY / 2)))) {
+          if (thresholdFlag) { // If a threshold flag was set
+            thresholdFlag = 0; // Reset the threshold flag
+            stepsCount++; // Increment the step count
+          }
         }
+      }
     } else {
-        if (indexWindowMin == ((index + (windowSize/2)) % windowSize)) {
-            lastMin = windowMin;  // Updates the MIN
-            difference = lastMax - lastMin;  // Updates the Difference
-            maxFlag = 0;
-            minMaxSampleCounter = 0;  // Reset the max-min sample counter
+      // If the sample counter exceeds a certain threshold, reset to avoid false positives
+      minMaxSampleCounter++;
 
-            /* The algorithm detects if the SENSITIVITYs are in of the Threshold level */
-
-            if ((lastMax > (oldThreshold+(sensitivity/2))) && (lastMin < (oldThreshold-(sensitivity/2)))) {
-                thresholdFlag = 1;  // Possible step (it will be analize later)
-                thresholdCounterFlag = 0;
-            } else {
-                thresholdCounterFlag++;  // Number of times the SENSITIVITYs are out of the Threshold Level consecutively
-            }
-
-            /* SENSITIVITY detection */
-            /* Each time the difference is higher than the fixed SENSITIVITY the algorithm updates the Threshold */
-
-            //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            //+++++++++++++++++++++++ THRESHOLD LEVEL UPDATE ++++++++++++++++++++++++++++
-            //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-            if (difference > sensitivity) {
-                /* Threshold level is calculated with the 4 previous good differences */
-                // The same method as the Filtering method
-                newThreshold = (lastMax + lastMin)/2;  // Calculates the New Threshold
-                bufferDynamicThreshold = bufferDynamicThreshold - buffer_dynamic_threshold[indexThreshold] + newThreshold;
-                oldThreshold = bufferDynamicThreshold / thresholdOrder; //BufferDinamicThreshold<<2
-                buffer_dynamic_threshold[indexThreshold] = newThreshold;
-                indexThreshold++;
-                if (indexThreshold > thresholdOrder - 1) {
-                    indexThreshold = 0;
-                }
-
-                // Once the Threshold Level is calculated and if the SENSITIVITYs was in the
-                // Threshold Level we certificate the step.
-
-                //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-                //++++++++++++++++++++++++ STEP CERTIFICATION   +++++++++++++++++++++++++
-                //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-                if (thresholdFlag) {
-                    // DETECTED STEP
-                    thresholdFlag = 0;
-                    stepToStepSamples = 0; // Reset the time.
-                    minMaxSampleCounter = 0;
-
-                    if (regulationMode) {
-                        //=====Regulation mode======
-                        // the step is counted
-                        stepsCount++;
-                    } else {
-                        //=====Non Regulation mode======
-                        possibleStepsCount++;
-
-                        // if the possible steps number is 8,
-                        // the algorithm concludes that the person is walking.
-                        if (possibleStepsCount == 8) {
-                            stepsCount = stepsCount + possibleStepsCount; // Possible steps are added to counted steps
-                            possibleStepsCount = 0;
-                            regulationMode = 1;  // The pedometer enters the Regulation mode
-                        }
-                    }                 
-                }
-            }
-        
-            windowMin = 0;
-            // If the SENSITIVITYs are out of the Threshold Level 2 times consecutively with a good difference,
-            // Is very probably that the acceleration profile isn't a step sequence
-            // (Reset the possible steps to discard false steps)
-            if (thresholdCounterFlag > 1) {
-                thresholdCounterFlag = 0;
-                minMaxSampleCounter = 0;
-                windowMax = 0;  // maybe it is not necessary  reset them.
-                windowMin = 0;
-                regulationMode = 0;
-                possibleStepsCount = 0;
-                thresholdCounterFlag = 0;
-            }
-        } else {
-            // While the pedometer is searching a min if between MAX and MIN
-            //  takes more than 25 samples I reset the step.
-            minMaxSampleCounter++;
-            if (minMaxSampleCounter == oneSecond) {
-                // Reset Step
-                minMaxSampleCounter = 0;
-                windowMax = 0;
-                windowMin = 0;
-                maxFlag = 0;
-                possibleStepsCount = 0;
-            }
-        }
-    }
-    // IndexBuffer is used as a circular buffer index
-    index++;
-    if (index > windowSize-1) {
-        index = 0;
-    }
-
-    stepToStepSamples++;
-    if (stepToStepSamples >= 2 * oneSecond) {
-        // If the pedometer takes 2 seconds without counting a step it
-        //  returns to the Non Regulation mode.
-        stepToStepSamples = 0;
-        possibleStepsCount = 0;
-        regulationMode = 0;
+      if (minMaxSampleCounter > ONE_SECOND) {
+        // Reset everything if it takes too long to find a min
         minMaxSampleCounter = 0;
-        if (regulationMode == 1) {
-            regulationMode = 0;
-            oldThreshold = 60;
-            bufferDynamicThreshold = 60 * thresholdOrder;//(INIT_OFFSET_VALUE)<<2
-            indexThreshold = 0;
-            thresholdCounterFlag = 0;
-            for (char i = 0; i < thresholdOrder; i++) {
-                buffer_dynamic_threshold[i] = 60;
-            }
-        }
-    }   
-    // Return the updated step count
-    return _stepsCount;
+        maxFlag = 0;
+        possibleStepsCount = 0;
+        stepToStepSamples = 0;
+        regulationMode = 0;
+      }
+    }
+  }
+
+  int upperSensitivity = oldThreshold + (SENSITIVITY / 2);
+  int lowerSensitivity = oldThreshold - (SENSITIVITY / 2);
+
+  // Send data to the Serial Plotter
+  Serial.print(stepsCount);
+  Serial.print(",");
+  Serial.print(possibleStepsCount);
+  Serial.print(",");
+  Serial.print(oldThreshold);
+  Serial.print(",");
+  Serial.print(upperSensitivity);
+  Serial.print(",");
+  Serial.print(lowerSensitivity);
+  Serial.println(); // End of line to separate readings
+
+
+  return stepsCount; // Return the current step count
 }
+
