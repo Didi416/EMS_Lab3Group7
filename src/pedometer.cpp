@@ -7,12 +7,12 @@ Pedometer::Pedometer() {
 Pedometer::Pedometer(int xPin, int yPin, int zPin) 
   : xPin_(xPin), yPin_(yPin), zPin_(zPin), index(0), 
     indexThreshold(0), bufferDynamicThreshold(INITIAL_THRESHOLD * THRESHOLD_ORDER),
-    stepsCount(0), possibleStepsCount(0), 
-    minMaxSampleCounter(0), stepToStepSamples(0), 
+    stepsCount(0), 
+    minMaxSampleCounter(0),
     maxFlag(0), thresholdFlag(0), thresholdCounterFlag(0), 
-    oldThreshold(INITIAL_THRESHOLD), regulationMode(false),
+    oldThreshold(INITIAL_THRESHOLD),
     windowMax(0), windowMin(0),
-    indexWindowMax(0), indexWindowMin(0)
+    windowMaxIndex(0), windowMinIndex(0)
 {
   for (int i = 0; i < THRESHOLD_ORDER; i++) {
     bufferDynamicThresholdArray[i] = INITIAL_THRESHOLD;
@@ -40,16 +40,16 @@ void Pedometer::updateMagnitudes(float magnitude) {
 void Pedometer::findMaxAndMin() {
   windowMax = magnitudes[0];
   windowMin = magnitudes[0];
-  indexWindowMax = 0;
-  indexWindowMin = 0;
+  windowMaxIndex = 0;
+  windowMinIndex = 0;
 
   for (int i = 1; i < WINDOW_SIZE; i++) {
     if (magnitudes[i] > windowMax) {
       windowMax = magnitudes[i];
-      indexWindowMax = i;
+      windowMaxIndex = i;
     } else if (magnitudes[i] < windowMin) {
       windowMin = magnitudes[i];
-      indexWindowMin = i;
+      windowMinIndex = i;
     }
   }
 }
@@ -84,7 +84,7 @@ int Pedometer::stepAlgorithm(int x, int y, int z, int _stepsCount) {
   if (maxFlag == 0) { 
     // Check if the current index corresponds to the middle of the window
     int expectedMaxIndex = (index + (WINDOW_SIZE / 2)) % WINDOW_SIZE;
-    if (indexWindowMax == expectedMaxIndex) {
+    if (windowMaxIndex == expectedMaxIndex) {
       maxFlag = 1; // Flag that we found a max
       lastMax = windowMax; // Store the last max
       minMaxSampleCounter = 0; // Reset the sample counter
@@ -92,7 +92,7 @@ int Pedometer::stepAlgorithm(int x, int y, int z, int _stepsCount) {
   } else {
     // If the min index matches the expected position, we've found the min
     int expectedMinIndex = (index + (WINDOW_SIZE / 2)) % WINDOW_SIZE;
-    if (indexWindowMin == expectedMinIndex) {
+    if (windowMinIndex == expectedMinIndex) {
       lastMin = windowMin; // Update the last min
       maxFlag = 0; // Reset max flag
       minMaxSampleCounter = 0; // Reset sample counter
@@ -117,11 +117,8 @@ int Pedometer::stepAlgorithm(int x, int y, int z, int _stepsCount) {
 
       if (minMaxSampleCounter > ONE_SECOND) {
         // Reset everything if it takes too long to find a min
-        minMaxSampleCounter = 0;
         maxFlag = 0;
-        possibleStepsCount = 0;
-        stepToStepSamples = 0;
-        regulationMode = 0;
+        minMaxSampleCounter = 0;
       }
     }
   }

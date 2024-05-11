@@ -31,20 +31,17 @@ class Pedometer {
     int bufferDynamicThreshold; // Dynamic threshold buffer sum
     int bufferDynamicThresholdArray[THRESHOLD_ORDER]; // Dynamic threshold values
     int stepsCount; // Step count
-    int possibleStepsCount; // Possible step count (pre-regulation)
     int minMaxSampleCounter; // Counter for samples between min and max
-    int stepToStepSamples; // Samples between steps
     int maxFlag; // Flag to indicate a max was found
     int thresholdFlag; // Flag for threshold detection
     int thresholdCounterFlag; // Counter for threshold checks
     int oldThreshold; // Previous threshold value
     int lastMax; // Last detected max
     int lastMin; // Last detected min
-    bool regulationMode; // Regulation mode indicator
     int windowMax; // Current window max
     int windowMin; // Current window min
-    int indexWindowMax; // Index for the max in the window
-    int indexWindowMin; // Index for the min in the window
+    int windowMaxIndex; // Index for the max in the window
+    int windowMinIndex; // Index for the min in the window
 };
 
 #endif //PEDOMETER_H
