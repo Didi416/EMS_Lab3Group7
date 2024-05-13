@@ -18,11 +18,22 @@
                 "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                 "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/HID/src",
                 "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                "D:/AshMu/Personal D/University/EMS2/GitHub/EMS_Lab3Group7-main/EMS_Lab3Group7/include",
+                "D:/AshMu/Personal D/University/EMS2/GitHub/EMS_Lab3Group7-main/EMS_Lab3Group7/src",
+                "C:/Users/AshMu/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                "D:/AshMu/Personal D/University/EMS2/GitHub/EMS_Lab3Group7-main/EMS_Lab3Group7/.pio/libdeps/uno/LiquidCrystal_I2C",
+                "C:/Users/AshMu/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                "C:/Users/AshMu/.platformio/packages/framework-arduino-avr/cores/arduino",
+                "C:/Users/AshMu/.platformio/packages/framework-arduino-avr/variants/standard",
+                "C:/Users/AshMu/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                "C:/Users/AshMu/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                "C:/Users/AshMu/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
                 ""
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
+<<<<<<< HEAD
                     "c:/Users/BenRP/OneDrive - UTS/GitHub/EMS_Lab3Group7/include",
                     "c:/Users/BenRP/OneDrive - UTS/GitHub/EMS_Lab3Group7/src",
                     "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
@@ -33,6 +44,18 @@
                     "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                     "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/HID/src",
                     "C:/Users/BenRP/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+=======
+                    "D:/AshMu/Personal D/University/EMS2/GitHub/EMS_Lab3Group7-main/EMS_Lab3Group7/include",
+                    "D:/AshMu/Personal D/University/EMS2/GitHub/EMS_Lab3Group7-main/EMS_Lab3Group7/src",
+                    "C:/Users/AshMu/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                    "D:/AshMu/Personal D/University/EMS2/GitHub/EMS_Lab3Group7-main/EMS_Lab3Group7/.pio/libdeps/uno/LiquidCrystal_I2C",
+                    "C:/Users/AshMu/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                    "C:/Users/AshMu/.platformio/packages/framework-arduino-avr/cores/arduino",
+                    "C:/Users/AshMu/.platformio/packages/framework-arduino-avr/variants/standard",
+                    "C:/Users/AshMu/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                    "C:/Users/AshMu/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                    "C:/Users/AshMu/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+>>>>>>> 32d02435d0836a5ed910bcfa772537f2146be66e
                     ""
                 ]
             },
@@ -47,7 +70,7 @@
             ],
             "cStandard": "gnu11",
             "cppStandard": "gnu++11",
-            "compilerPath": "C:/Users/BenRP/.platformio/packages/toolchain-atmelavr/bin/avr-gcc.exe",
+            "compilerPath": "C:/Users/AshMu/.platformio/packages/toolchain-atmelavr/bin/avr-gcc.exe",
             "compilerArgs": [
                 "-mmcu=atmega328p",
                 ""
