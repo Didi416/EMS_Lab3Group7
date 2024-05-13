@@ -23,7 +23,8 @@ void setup() {
   pedometer = Pedometer(0, 1, 2); // Initialize with sensor pins
 
   pinMode(2, OUTPUT);
-  digitalWrite(2, HIGH);
+  digitalWrite(2, HIGH); // Turns off the ST routine
+  pinMode(7, INPUT);
   // lcd.begin(16, 2);
   // lcd.backlight();
   // lcd.clear();
