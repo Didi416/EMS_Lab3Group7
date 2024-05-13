@@ -1,5 +1,8 @@
 #include "pedometer.h"
 
+//testing variables
+ int prevSteps;
+
 Pedometer::Pedometer() {
     Pedometer(int(A0), int(A1), int(A2)); // Initialize buffer 
 }
@@ -132,16 +135,21 @@ int Pedometer::stepAlgorithm(int x, int y, int z) {
   int upperSensitivity = oldThreshold + (SENSITIVITY / 2);
   int lowerSensitivity = oldThreshold - (SENSITIVITY / 2);
 
-  
+
   // Send data to the Serial Plotter
+  Serial.print(((stepsCount % 2) * 200) + 1000);
+  Serial.print(" ");
   Serial.print(stepsCount);
   Serial.print(" ");
+  // Serial.print(stepsCount);
+  // Serial.print(" ");
   Serial.print(upperSensitivity);
   Serial.print(" ");
   Serial.print(lowerSensitivity);
   Serial.print(" ");
   Serial.print(magnitude);
   Serial.println();
+
 
   return stepsCount; // Return the current step count
 }
