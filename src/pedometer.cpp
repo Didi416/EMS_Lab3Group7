@@ -1,7 +1,7 @@
 #include "pedometer.h"
 
 Pedometer::Pedometer() {
-    Pedometer(0, 1, 2); // Initialize buffer 
+    Pedometer(int(A0), int(A1), int(A2)); // Initialize buffer 
 }
 
 Pedometer::Pedometer(int xPin, int yPin, int zPin) 
@@ -9,7 +9,7 @@ Pedometer::Pedometer(int xPin, int yPin, int zPin)
     indexThreshold(0), bufferDynamicThreshold(INITIAL_THRESHOLD * THRESHOLD_ORDER),
     stepsCount(0), 
     minMaxSampleCounter(0),
-    maxFlag(0), thresholdFlag(0), thresholdCounterFlag(0), 
+    maxFlag(0), 
     oldThreshold(INITIAL_THRESHOLD),
     windowMax(0), windowMin(0),
     windowMaxIndex(0), windowMinIndex(0)
@@ -22,17 +22,17 @@ Pedometer::Pedometer(int xPin, int yPin, int zPin)
   }
 }
 
-void Pedometer::getAxisData(int &x, int &y, int &z) {
+void Pedometer::getAxisData(double &x, double &y, double &z) {
   x = analogRead(xPin_); // Read sensor data
   y = analogRead(yPin_);  
   z = analogRead(zPin_);
 }
 
-int Pedometer::calculateMagnitude(int x, int y, int z) {
+double Pedometer::calculateMagnitude(double x, double y, double z) {
   return sqrt(x * x + y * y + z * z); // Calculate magnitude
 }
 
-void Pedometer::updateMagnitudes(float magnitude) {
+void Pedometer::updateMagnitudes(double magnitude) {
   magnitudes[index] = magnitude; // Update circular buffer
   index = (index + 1) % WINDOW_SIZE; // Increment index with wrapping
 }
@@ -71,9 +71,18 @@ void Pedometer::updateThresholdLevel() {
   indexThreshold = (indexThreshold + 1) % THRESHOLD_ORDER; // Increment buffer index
 }
 
-int Pedometer::stepAlgorithm(int x, int y, int z, int _stepsCount) {
+int counter = 0;
+unsigned long st = millis();
+
+int Pedometer::stepAlgorithm(int x, int y, int z) {
+  
+  counter++;
+  if (millis() - st > 10000) {
+    //Serial.println(counter);
+  }
+
   // Calculate acceleration magnitude
-  float magnitude = calculateMagnitude(x, y, z);
+  double magnitude = calculateMagnitude(x, y, z);
 
   // Update magnitudes in the rolling window
   updateMagnitudes(magnitude);
@@ -95,7 +104,6 @@ int Pedometer::stepAlgorithm(int x, int y, int z, int _stepsCount) {
     if (windowMinIndex == expectedMinIndex) {
       lastMin = windowMin; // Update the last min
       maxFlag = 0; // Reset max flag
-      minMaxSampleCounter = 0; // Reset sample counter
 
       int difference = lastMax - lastMin; // Calculate the difference
 
@@ -105,39 +113,35 @@ int Pedometer::stepAlgorithm(int x, int y, int z, int _stepsCount) {
 
         // If the new data falls within the threshold and sensitivity, consider it a step
         if ((lastMax > (oldThreshold + (SENSITIVITY / 2))) && (lastMin < (oldThreshold - (SENSITIVITY / 2)))) {
-          if (thresholdFlag) { // If a threshold flag was set
-            thresholdFlag = 0; // Reset the threshold flag
-            stepsCount++; // Increment the step count
-          }
+          stepsCount++; // Increment the step count
+          minMaxSampleCounter = 0; // Reset sample counter
         }
       }
     } else {
-      // If the sample counter exceeds a certain threshold, reset to avoid false positives
-      minMaxSampleCounter++;
-
+      
       if (minMaxSampleCounter > ONE_SECOND) {
         // Reset everything if it takes too long to find a min
         maxFlag = 0;
         minMaxSampleCounter = 0;
       }
     }
+
+    minMaxSampleCounter++;
   }
 
-  // int upperSensitivity = oldThreshold + (SENSITIVITY / 2);
-  // int lowerSensitivity = oldThreshold - (SENSITIVITY / 2);
+  int upperSensitivity = oldThreshold + (SENSITIVITY / 2);
+  int lowerSensitivity = oldThreshold - (SENSITIVITY / 2);
 
-  // // Send data to the Serial Plotter
-  // Serial.print(stepsCount);
-  // Serial.print(" ");
-  // Serial.print(possibleStepsCount);
-  // Serial.print("Values: ");
-  // Serial.print(" ");
-  // Serial.print(oldThreshold);
-  // Serial.print(" ");
-  // Serial.print(upperSensitivity);
-  // Serial.print(" ");
-  // Serial.print(lowerSensitivity);
-  // Serial.print(" ");
+  
+  // Send data to the Serial Plotter
+  Serial.print(stepsCount);
+  Serial.print(" ");
+  Serial.print(upperSensitivity);
+  Serial.print(" ");
+  Serial.print(lowerSensitivity);
+  Serial.print(" ");
+  Serial.print(magnitude);
+  Serial.println();
 
   return stepsCount; // Return the current step count
 }

@@ -5,27 +5,27 @@
 #include <math.h> // For sqrt function
 
 // Constants
-const int WINDOW_SIZE = 10;
+const int WINDOW_SIZE = 14;
 const int THRESHOLD_ORDER = 4;
-const int ONE_SECOND = 50; // Number of cycles in a second
-const int INITIAL_THRESHOLD = 60; // Initial threshold value
-const int SENSITIVITY = 6; // Sensitivity for step detection
+const int ONE_SECOND = 41; // Number of cycles in a second
+const double INITIAL_THRESHOLD = 1022; // Initial threshold value
+const double SENSITIVITY = 140; // Sensitivity for step detection
 
 // Pedometer Class Implementation
 class Pedometer {
   public:
     Pedometer(); // Default constructor
     Pedometer(int xPin, int yPin, int zPin); // Overloaded constructor
-    void getAxisData(int &x, int &y, int &z);
-    int calculateMagnitude(int x, int y, int z);
-    void updateMagnitudes(float magnitude);
+    void getAxisData(double &x, double &y, double &z);
+    double calculateMagnitude(double x, double y, double z);
+    void updateMagnitudes(double magnitude);
     void findMaxAndMin();
     void updateThresholdLevel();
-    int stepAlgorithm(int x, int y, int z, int stepCount);
+    int stepAlgorithm(int x, int y, int z);
 
   private:
     int xPin_, yPin_, zPin_; // Sensor pins
-    float magnitudes[WINDOW_SIZE]; // Circular buffer for magnitudes
+    double magnitudes[WINDOW_SIZE]; // Circular buffer for magnitudes
     int index; // Index for circular buffer
     int indexThreshold; // Index for dynamic threshold buffer
     int bufferDynamicThreshold; // Dynamic threshold buffer sum
@@ -33,8 +33,6 @@ class Pedometer {
     int stepsCount; // Step count
     int minMaxSampleCounter; // Counter for samples between min and max
     int maxFlag; // Flag to indicate a max was found
-    int thresholdFlag; // Flag for threshold detection
-    int thresholdCounterFlag; // Counter for threshold checks
     int oldThreshold; // Previous threshold value
     int lastMax; // Last detected max
     int lastMin; // Last detected min
