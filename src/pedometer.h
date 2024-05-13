@@ -9,7 +9,7 @@ const int WINDOW_SIZE = 14;
 const int THRESHOLD_ORDER = 4;
 const int ONE_SECOND = 41; // Number of cycles in a second
 const double INITIAL_THRESHOLD = 888; // Initial threshold value
-const double SENSITIVITY = 160; // Sensitivity for step detection
+const double SENSITIVITY = 230; // Sensitivity for step detection
 
 // Pedometer Class Implementation
 class Pedometer {
