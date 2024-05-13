@@ -13,12 +13,21 @@ const int testReadX = A0;
 const int testReadY = A1;
 const int testReadZ = A2;
 
+//LiquidCrystal_I2C lcd(0x27, 16, 2);
+
 Pedometer pedometer;
 double time = 1;
 
 void setup() {
   Serial.begin(9600);
   pedometer = Pedometer(0, 1, 2); // Initialize with sensor pins
+
+  pinMode(2, OUTPUT);
+  digitalWrite(2, HIGH);
+  // lcd.begin(16, 2);
+  // lcd.backlight();
+  // lcd.clear();
+  // lcd.setCursor(0, 0);
 }
 
 void loop() {
@@ -26,17 +35,12 @@ void loop() {
   yValue = analogRead(testReadY);
   zValue = analogRead(testReadZ);
 
-// //  Serial.print("x-axis = ");
-//   Serial.println(xValue);
-// //  Serial.print("y-axis = ");
-//   Serial.println(yValue);
-// //  Serial.print("z-axis = ");
-//   Serial.println(zValue);
-//   delay(2);
-
+  // lcd.setCursor(0, 0);
 
   pedometer.getAxisData(xValue, yValue, zValue); //reads and returns the x, y and z values
-  pedometer.stepAlgorithm(xValue, yValue, zValue); //determines if a step has been taken based on axis data
+
+  // lcd.print(int(pedometer.stepAlgorithm(xValue, yValue, zValue))); //determines if a step has been taken based on axis data
+  pedometer.stepAlgorithm(xValue, yValue, zValue);
 
 delay(10);
 

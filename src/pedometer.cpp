@@ -116,7 +116,7 @@ int Pedometer::stepAlgorithm(int x, int y, int z) {
 
         // If the new data falls within the threshold and sensitivity, consider it a step
         if ((lastMax > (oldThreshold + (SENSITIVITY / 2))) && (lastMin < (oldThreshold - (SENSITIVITY / 2)))) {
-          stepsCount++; // Increment the step count
+          stepsCount += 2; // Increment the step count
           minMaxSampleCounter = 0; // Reset sample counter
         }
       }
@@ -137,8 +137,8 @@ int Pedometer::stepAlgorithm(int x, int y, int z) {
 
 
   // Send data to the Serial Plotter
-  Serial.print(((stepsCount % 2) * 200) + 1000);
-  Serial.print(" ");
+  // Serial.print(((stepsCount % 2) * 200) + 1000);
+  // Serial.print(" ");
   Serial.print(stepsCount);
   Serial.print(" ");
   // Serial.print(stepsCount);
