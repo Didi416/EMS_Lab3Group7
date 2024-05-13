@@ -141,8 +141,6 @@ int Pedometer::stepAlgorithm(int x, int y, int z) {
   // Serial.print(" ");
   Serial.print(stepsCount);
   Serial.print(" ");
-  // Serial.print(stepsCount);
-  // Serial.print(" ");
   Serial.print(upperSensitivity);
   Serial.print(" ");
   Serial.print(lowerSensitivity);
