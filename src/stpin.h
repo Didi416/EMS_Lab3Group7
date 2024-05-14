@@ -5,7 +5,7 @@ class Stpin {
 
 public:
     Stpin(); // Default constructor
-    void stControl();
+    void stControl(LiquidCrystal_I2C lcd);
 
   private:
     int buttonCounter;

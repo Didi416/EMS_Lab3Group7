@@ -15,7 +15,7 @@ const int testReadX = A0;
 const int testReadY = A1;
 const int testReadZ = A2;
 
-//LiquidCrystal_I2C lcd(0x27, 16, 2);
+LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 Pedometer pedometer;
 Stpin stpin;
@@ -32,10 +32,10 @@ void setup() {
   // pinMode(2, OUTPUT);
   // digitalWrite(2, HIGH); // Turns off the ST routine
   // pinMode(7, INPUT);
-  // lcd.begin(16, 2);
-  // lcd.backlight();
-  // lcd.clear();
-  // lcd.setCursor(0, 0);
+  lcd.begin(16, 2);
+  lcd.backlight();
+  lcd.clear();
+  lcd.setCursor(0, 0);
 }
 
 void loop() {
@@ -43,14 +43,14 @@ void loop() {
   yValue = analogRead(testReadY);
   zValue = analogRead(testReadZ);
 
-  // lcd.setCursor(0, 0);
+  lcd.setCursor(0, 0);
 
   pedometer.getAxisData(xValue, yValue, zValue); //reads and returns the x, y and z values
   
-  // lcd.print(int(pedometer.stepAlgorithm(xValue, yValue, zValue))); //determines if a step has been taken based on axis data
+  lcd.print(int(pedometer.stepAlgorithm(xValue, yValue, zValue))); //determines if a step has been taken based on axis data
   pedometer.stepAlgorithm(xValue, yValue, zValue);
 
-  //stpin.stControl();
+  stpin.stControl(lcd);
 
 delay(10);
 
