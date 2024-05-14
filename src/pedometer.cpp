@@ -139,14 +139,14 @@ int Pedometer::stepAlgorithm(int x, int y, int z) {
   // Send data to the Serial Plotter
   // Serial.print(((stepsCount % 2) * 200) + 1000);
   // Serial.print(" ");
-  Serial.print(stepsCount);
-  Serial.print(" ");
-  Serial.print(upperSensitivity);
-  Serial.print(" ");
-  Serial.print(lowerSensitivity);
-  Serial.print(" ");
-  Serial.print(magnitude);
-  Serial.println();
+  // Serial.print(stepsCount);
+  // Serial.print(" ");
+  // Serial.print(upperSensitivity);
+  // Serial.print(" ");
+  // Serial.print(lowerSensitivity);
+  // Serial.print(" ");
+  // Serial.print(magnitude);
+  // Serial.println();
 
 
   return stepsCount; // Return the current step count

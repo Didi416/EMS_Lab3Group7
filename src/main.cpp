@@ -3,7 +3,6 @@
 #include "stpin.h"
 #include "Wire.h"
 #include "LiquidCrystal_I2C.h"
-#include "SPI.h"
 
 #define SS_PIN 45
 #define RST_PIN 29  
@@ -14,6 +13,8 @@ double zValue = 0;
 const int testReadX = A0;
 const int testReadY = A1;
 const int testReadZ = A2;
+
+bool button1Pressed = false;
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
@@ -36,6 +37,18 @@ void setup() {
   lcd.backlight();
   lcd.clear();
   lcd.setCursor(0, 0);
+
+  //LEDs
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(5, OUTPUT);
+  //Button1
+  pinMode(2, OUTPUT); // Either 5V to gate or 0V to gate  
+  pinMode(7, INPUT);  // Button is read in from this pin
+
+  digitalWrite(3,HIGH);
+  digitalWrite(4,HIGH);
+  digitalWrite(5,HIGH);
 }
 
 void loop() {
@@ -50,7 +63,18 @@ void loop() {
   lcd.print(int(pedometer.stepAlgorithm(xValue, yValue, zValue))); //determines if a step has been taken based on axis data
   pedometer.stepAlgorithm(xValue, yValue, zValue);
 
-  stpin.stControl(lcd);
+  if (digitalRead(7) == LOW){
+    button1Pressed = !button1Pressed;
+    Serial.println("Button pressed");
+  }
+  if (button1Pressed == true){
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("ADXL355 SelfTest");
+    lcd.setCursor(0, 1);
+    lcd.print("Routine Active!");
+  }
+  // stpin.stControl(lcd);
 
 delay(10);
 
