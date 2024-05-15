@@ -5,6 +5,7 @@ Stpin::Stpin(){
        
     // State control of the button
     buttonCounter = 0;
+    digitalWrite(2, HIGH);
 }
 
 void Stpin::stControl(LiquidCrystal_I2C lcd){

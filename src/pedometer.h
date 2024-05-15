@@ -14,7 +14,7 @@ const double SENSITIVITY = 230; // Sensitivity for step detection
 // Pedometer Class Implementation
 class Pedometer {
   public:
-    Pedometer(); // Default constructor
+    // Pedometer(); // Default constructor
     Pedometer(int xPin, int yPin, int zPin); // Overloaded constructor
     void getAxisData(double &x, double &y, double &z);
     double calculateMagnitude(double x, double y, double z);
@@ -22,6 +22,7 @@ class Pedometer {
     void findMaxAndMin();
     void updateThresholdLevel();
     int stepAlgorithm(int x, int y, int z);
+    void resetStepCount();
 
   private:
     int xPin_, yPin_, zPin_; // Sensor pins
