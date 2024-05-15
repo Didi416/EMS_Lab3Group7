@@ -1,13 +1,11 @@
-#include <Arduino.h>
-#include <Wire.h>              // for I2C
 #include <LiquidCrystal_I2C.h> // the LCD display over I2C
-LiquidCrystal_I2C lcd(0x27, 16, 2);
+#include <Arduino.h>
 
 class Stpin {
 
 public:
     Stpin(); // Default constructor
-    void stControl();
+    void stControl(LiquidCrystal_I2C lcd);
 
   private:
     int buttonCounter;
