@@ -7,18 +7,19 @@ Stpin::Stpin(){
     int xPin_ = 0;
     int yPin_ = 1;
     int zPin_ = 2;
->>>>>>> 6cb194705bca1287b08cd880cee826298d6a561c
 }
 
 void Stpin::stControl(LiquidCrystal_I2C lcd){
     // Need to account for the inversion that takes place
     if(digitalRead(7) == 0){
         buttonCounter++;
+        delay(500);
     }
        
     if (buttonCounter == 0) {
         digitalWrite(2, HIGH); //st off
     }
+
     if (buttonCounter == 1) {
 
         double x,y,z;
@@ -28,30 +29,27 @@ void Stpin::stControl(LiquidCrystal_I2C lcd){
         // Print the state to the arduino
         lcd.clear();
         lcd.setCursor(0, 0);
-        lcd.print("ADXL355 SelfTest");
+        lcd.print("SelfTest X,Y,Z:");
 
         // X printing
-        lcd.setCursor(0, 1);
-        lcd.print("X: ");
-        lcd.setCursor(3, 1);
-        lcd.print(x);
+        lcd.setCursor(1, 1);
+        lcd.print(int(x));
 
         // Y printing
-        lcd.setCursor(7, 1);
-        lcd.print("Y: ");
-        lcd.setCursor(9,1);
-        lcd.print(y);
+        lcd.setCursor(6, 1);
+        lcd.print(int(y));
 
         // Z printing
         lcd.setCursor(11, 1);
-        lcd.print("Z: ");
-        lcd.setCursor(13, 1);
-        lcd.print(z);
-
+        lcd.print(int(z));
+        delay(2000);
+        lcd.clear();
+        buttonCounter = 0;
     }
         // If the button is pressed for a second time exit ST routine
     if(buttonCounter == 2){
         buttonCounter = 0;     // Reset the button counter for states
+        lcd.clear();
     }
 }
 
