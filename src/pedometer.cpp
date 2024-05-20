@@ -1,11 +1,8 @@
 #include "pedometer.h"
+#include "LiquidCrystal_I2C.h"
 
 //testing variables
  int prevSteps;
-
-Pedometer::Pedometer() {
-    Pedometer(int(A0), int(A1), int(A2)); // Initialize buffer 
-}
 
 Pedometer::Pedometer(int xPin, int yPin, int zPin) 
   : xPin_(xPin), yPin_(yPin), zPin_(zPin), index(0), 
@@ -136,19 +133,23 @@ int Pedometer::stepAlgorithm(int x, int y, int z) {
   int lowerSensitivity = oldThreshold - (SENSITIVITY / 2);
 
 
-  // Send data to the Serial Plotter
+  //Send data to the Serial Plotter
   // Serial.print(((stepsCount % 2) * 200) + 1000);
-  // Serial.print(" ");
-  // Serial.print(stepsCount);
-  // Serial.print(" ");
-  // Serial.print(upperSensitivity);
-  // Serial.print(" ");
-  // Serial.print(lowerSensitivity);
-  // Serial.print(" ");
-  // Serial.print(magnitude);
-  // Serial.println();
+  Serial.print(" ");
+  Serial.print(stepsCount);
+  Serial.print(" ");
+  Serial.print(upperSensitivity);
+  Serial.print(" ");
+  Serial.print(lowerSensitivity);
+  Serial.print(" ");
+  Serial.print(magnitude);
+  Serial.println();
 
 
   return stepsCount; // Return the current step count
+}
+
+void Pedometer::resetStepCount() {
+  stepsCount = 0;
 }
 
