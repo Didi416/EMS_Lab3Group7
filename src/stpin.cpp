@@ -28,11 +28,32 @@ void Stpin::stControl(LiquidCrystal_I2C lcd){
         lcd.setCursor(0, 0);
         lcd.print("ADXL355 SelfTest");
 
-        // X printing
         lcd.setCursor(0, 1);
-        lcd.print("X: ");
-        lcd.setCursor(3, 1);
-        lcd.print(x);
+        lcd.print("Orient as on LCD");
+
+        delay(1000);
+
+        lcd.setCursor(0, 0);
+        lcd.print("Lay flat");
+
+        delay(1000);
+        lcd.clear();
+
+        for(int i = 0; i < 2000; i++){
+            // X printing
+            lcd.setCursor(0, 1);
+            lcd.print("X: ");
+            lcd.setCursor(3, 1);
+            lcd.print(x);
+        }
+
+        lcd.setCursor(0, 0);
+        lcd.print("Lay on side");
+
+        delay(1000);
+        lcd.clear();
+
+        for(int i = 0; i < 2000; i++){
 
         // Y printing
         lcd.setCursor(7, 1);
@@ -45,7 +66,38 @@ void Stpin::stControl(LiquidCrystal_I2C lcd){
         lcd.print("Z: ");
         lcd.setCursor(13, 1);
         lcd.print(z);
+        }
+        
+        double expectedX = 0;
+        double expectedY = 0;
+        double expectedZ = 0;
 
+        if(x == expectedX){
+            // X printing
+            lcd.setCursor(0, 0);
+            lcd.print("X: PASS");
+        } else {
+            lcd.setCursor(0, 0);
+            lcd.print("X: FAIL");}
+
+        if(y == expectedY){
+            // X printing
+            lcd.setCursor(0, 1);
+            lcd.print("Y: PASS");
+        } else {
+            lcd.setCursor(0, 1);
+            lcd.print("Y: FAIL");}
+
+        if(z == expectedZ){
+            // X printing
+            lcd.setCursor(8, 1);
+            lcd.print("Z: PASS");
+        } else {
+            lcd.setCursor(8, 1);
+            lcd.print("Z: FAIL");}
+        
+        delay(2000);
+        lcd.clear();
     }
         // If the button is pressed for a second time exit ST routine
     if(buttonCounter == 2){

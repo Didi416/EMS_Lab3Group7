@@ -57,24 +57,14 @@ void loop() {
   zValue = analogRead(testReadZ);
 
   lcd.setCursor(0, 0);
-
+  
   pedometer.getAxisData(xValue, yValue, zValue); //reads and returns the x, y and z values
   
   lcd.print(int(pedometer.stepAlgorithm(xValue, yValue, zValue))); //determines if a step has been taken based on axis data
   pedometer.stepAlgorithm(xValue, yValue, zValue);
 
-  if (digitalRead(7) == LOW){
-    button1Pressed = !button1Pressed;
-    Serial.println("Button pressed");
-  }
-  if (button1Pressed == true){
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print("ADXL355 SelfTest");
-    lcd.setCursor(0, 1);
-    lcd.print("Routine Active!");
-  }
-  // stpin.stControl(lcd);
+  stpin.stControl(lcd);
+  
 
 delay(10);
 
