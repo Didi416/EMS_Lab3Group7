@@ -44,9 +44,9 @@ void Stpin::stControl(LiquidCrystal_I2C lcd){
 
         for(int i = 0; i < 2000; i++){
             // X printing
-            lcd.setCursor(0, 1);
+            lcd.setCursor(0, 0);
             lcd.print("X: ");
-            lcd.setCursor(3, 1);
+            lcd.setCursor(3, 0);
             lcd.print(x);
         }
 
@@ -59,19 +59,24 @@ void Stpin::stControl(LiquidCrystal_I2C lcd){
         for(int i = 0; i < 2000; i++){
 
         // Y printing
-        lcd.setCursor(6, 1);
-        lcd.print(int(y));
+        lcd.setCursor(0, 1);
+        lcd.print("Y: ");
+        lcd.setCursor(3, 0);
+        lcd.print(y);
 
         // Z printing
-        lcd.setCursor(11, 1);
+        lcd.setCursor(7, 1);
         lcd.print("Z: ");
-        lcd.setCursor(13, 1);
+        lcd.setCursor(10, 1);
         lcd.print(z);
+
         }
         
+
         double expectedX = 0;
         double expectedY = 0;
         double expectedZ = 0;
+
 
         if(x == expectedX){
             // X printing
