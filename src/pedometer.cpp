@@ -4,6 +4,10 @@
 //testing variables
  int prevSteps;
 
+Pedometer::Pedometer() {
+  Pedometer(0, 1, 2);
+}
+
 Pedometer::Pedometer(int xPin, int yPin, int zPin) 
   : xPin_(xPin), yPin_(yPin), zPin_(zPin), index(0), 
     indexThreshold(0), bufferDynamicThreshold(INITIAL_THRESHOLD * THRESHOLD_ORDER),

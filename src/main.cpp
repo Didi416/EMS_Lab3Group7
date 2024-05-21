@@ -10,16 +10,13 @@
 double xValue = 0;
 double yValue = 0;
 double zValue = 0;
-const int testReadX = A0;
-const int testReadY = A1;
-const int testReadZ = A2;
 
 bool button1Pressed = false;
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 // Pedometer pedometer;
-Pedometer pedometer(0, 1, 2); // Initialize with sensor pins A0, A1, and A2
+Pedometer pedometer; // Initialize with sensor pins A0, A1, and A2
 Stpin stpin;
 
 void setup() {
@@ -31,6 +28,7 @@ void setup() {
   lcd.setCursor(0, 0);
 
   stpin = Stpin();
+  pedometer = Pedometer(0, 1, 2);
   
   //LEDs
   pinMode(3, OUTPUT);
@@ -40,13 +38,15 @@ void setup() {
   digitalWrite(4,HIGH);
   digitalWrite(5,HIGH);
 
-  //Button1
   pinMode(2, OUTPUT); // Either 5V to gate or 0V to gate  
+  //Button1
   pinMode(7, INPUT);  // Button is read in from this pin
-
   //Button2
   pinMode(8, INPUT); // Reset button
 
+  pinMode(0, INPUT);
+  pinMode(1, INPUT);
+  pinMode(2, INPUT);
   
 }
 
@@ -54,10 +54,11 @@ void loop() {
 
   lcd.setCursor(0, 0);
   lcd.print("Steps: ");
-  lcd.setCursor(7,0);  
+  lcd.setCursor(7,0);
+  pedometer.getAxisData(xValue,yValue,zValue);  
   lcd.print(int(pedometer.stepAlgorithm(xValue, yValue, zValue))); //determines if a step has been taken based on axis 
   
-  pedometer.stepAlgorithm(xValue, yValue, zValue);
+  // pedometer.stepAlgorithm(xValue, yValue, zValue);
 
   if (digitalRead(8) == LOW){
     pedometer.resetStepCount();
