@@ -77,8 +77,8 @@ void Stpin::stControl(LiquidCrystal_I2C lcd){
         double expectedY = 0;
         double expectedZ = 0;
 
-
-        if(x == expectedX){
+        // 10% -+ tolerance since the data sheet shows the 3V values but we need 3.3V values which is 10% more
+        if(x > expectedX*0.9 || x < expectedX*1.1){
             // X printing
             lcd.setCursor(0, 0);
             lcd.print("X: PASS");
@@ -86,7 +86,7 @@ void Stpin::stControl(LiquidCrystal_I2C lcd){
             lcd.setCursor(0, 0);
             lcd.print("X: FAIL");}
 
-        if(y == expectedY){
+        if(y > expectedY*0.9 || y < expectedY*1.1){
             // X printing
             lcd.setCursor(0, 1);
             lcd.print("Y: PASS");
@@ -94,7 +94,7 @@ void Stpin::stControl(LiquidCrystal_I2C lcd){
             lcd.setCursor(0, 1);
             lcd.print("Y: FAIL");}
 
-        if(z == expectedZ){
+        if(z > expectedZ*0.9 || z < expectedZ*1.1){
             // X printing
             lcd.setCursor(8, 1);
             lcd.print("Z: PASS");
