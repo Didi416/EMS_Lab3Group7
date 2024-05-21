@@ -5,7 +5,7 @@
 #include "LiquidCrystal_I2C.h"
 
 #define SS_PIN 45
-#define RST_PIN 29  
+#define RST_PIN 29
 
 double xValue = 0;
 double yValue = 0;
@@ -19,7 +19,7 @@ bool button1Pressed = false;
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 // Pedometer pedometer;
-Pedometer pedometer(0, 1, 2); // Initialize with sensor pins
+Pedometer pedometer(0, 1, 2); // Initialize with sensor pins A0, A1, and A2
 Stpin stpin;
 
 void setup() {
