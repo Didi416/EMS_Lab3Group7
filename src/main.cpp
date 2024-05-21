@@ -110,34 +110,16 @@ void loop() {
   zValue = analogRead(testReadZ);
   
   lcd.setCursor(0, 0);
-<<<<<<< HEAD
-  
-=======
   lcd.print("Steps: ");
   lcd.setCursor(7,0);
->>>>>>> b55a089e547f54eadea85e4ee0884d210130bf5c
   pedometer.getAxisData(xValue, yValue, zValue); //reads and returns the x, y and z values
   
 
   lcd.print(int(pedometer.stepAlgorithm(xValue, yValue, zValue))); //determines if a step has been taken based on axis data
   pedometer.stepAlgorithm(xValue, yValue, zValue);
 
-<<<<<<< HEAD
   stpin.stControl(lcd);
   
-=======
-  if (digitalRead(8) == LOW){
-    pedometer.resetStepCount();
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print("RESET");
-    delay(1000);
-    lcd.setCursor(0,0);
-    lcd.clear();
-  }
-  
-  stpin.stControl(lcd);
->>>>>>> b55a089e547f54eadea85e4ee0884d210130bf5c
 
 delay(10);
 
