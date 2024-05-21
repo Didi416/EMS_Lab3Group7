@@ -63,15 +63,11 @@ void setup() {
   
   analogReference(EXTERNAL);
   Serial.begin(9600);
-  Serial.println("hi 1");
 
   lcd.begin(16, 2);
-  Serial.println("hi 2");
   lcd.backlight();
   lcd.clear();
-  Serial.println("hi 3");
   lcd.setCursor(0, 0);
-  Serial.println("hi 4");
 
   stpin = Stpin();
   
@@ -136,24 +132,31 @@ void setup() {
 
 
 void loop() {
+<<<<<<< HEAD
   xValue = analogRead(testReadX);
   yValue = analogRead(testReadY);
   zValue = analogRead(testReadZ);
   
+=======
+
+>>>>>>> 4e07ed748fbb05fafa01942c1f4886a749d14213
   lcd.setCursor(0, 0);
   lcd.print("Steps: ");
-  lcd.setCursor(7,0);
-  pedometer.getAxisData(xValue, yValue, zValue); //reads and returns the x, y and z values
+  lcd.setCursor(7,0);  
+  lcd.print(int(pedometer.stepAlgorithm(xValue, yValue, zValue))); //determines if a step has been taken based on axis 
   
-
-  lcd.print(int(pedometer.stepAlgorithm(xValue, yValue, zValue))); //determines if a step has been taken based on axis data
   pedometer.stepAlgorithm(xValue, yValue, zValue);
 
   stpin.stControl(lcd);
   
 
+<<<<<<< HEAD
 delay(10);
 
   
 }
 
+=======
+  delay(10);
+}
+>>>>>>> 4e07ed748fbb05fafa01942c1f4886a749d14213
