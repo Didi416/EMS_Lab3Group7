@@ -30,6 +30,9 @@ ADXL335 accelerometer;
 Pedometer pedometer(0, 1, 2); // Initialize with sensor pins
 Stpin stpin;
 
+void calibrateADXL(int* _x, int* _y, int* _z);
+
+
 void setup() {
   
   analogReference(EXTERNAL);
@@ -61,6 +64,8 @@ void setup() {
   //Button2
   pinMode(8, INPUT); // Reset button
 
+
+    
      accelerometer.begin();
     int x, y, z;
     for (int i = 0; i < 20; i ++) {
@@ -74,7 +79,7 @@ void setup() {
     while (Serial.available() > 0) {
         Serial.read();
     }
-    calibrate(&x, &y, &z);
+    calibrateADXL(&x, &y, &z);
     zero_x = x;
     zero_y = y;
     max_z = z;
@@ -85,7 +90,7 @@ void setup() {
     while (Serial.available() > 0) {
         Serial.read();
     }
-    calibrate(&x, &y, &z); // inbuild arduino function
+    calibrateADXL(&x, &y, &z); // inbuild arduino function
     zero_z = z;
     float zero_xv, zero_yv, zero_zv;
     zero_xv = (float)zero_x * ADC_REF / ADC_AMPLITUDE;
@@ -126,8 +131,11 @@ delay(10);
   
 }
 
-void calibrate(int* _x, int* _y, int* _z) { // loops takes pointers to _x_y_z as arguments
+void calibrateADXL(int* _x, int* _y, int* _z) { // loops takes pointers to _x_y_z as arguments
     int x, y, z;
+    x = xValue;
+    y = yValue;
+    z = zValue;
     //int sum_x, sum_y, sum_z;
     accelerometer.getXYZ(&x, &y, &z);
     float ax, ay, az;

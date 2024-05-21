@@ -4,9 +4,9 @@ Stpin::Stpin(){
     // State control of the button
     buttonCounter = 0;
 
-    int xPin_ = 0;
-    int yPin_ = 1;
-    int zPin_ = 2;
+    xPin_ = A0;
+    yPin_ = A1;
+    zPin_ = A2;
 }
 
 void Stpin::stControl(LiquidCrystal_I2C lcd){
@@ -72,13 +72,13 @@ void Stpin::stControl(LiquidCrystal_I2C lcd){
 
         }
         
-
-        double expectedX = 0;
-        double expectedY = 0;
-        double expectedZ = 0;
+        // 10% from 3V to 3.3V and the filter gain added
+        double expectedX = -325 * 1.585 * 1.1;
+        double expectedY = 325 * 1.585 * 1.1;
+        double expectedZ = 550 * 1.585 * 1.1;
 
         // 10% -+ tolerance since the data sheet shows the 3V values but we need 3.3V values which is 10% more
-        if(x > expectedX*0.9 || x < expectedX*1.1){
+        if(x > expectedX*0.9 && x < expectedX*1.1){
             // X printing
             lcd.setCursor(0, 0);
             lcd.print("X: PASS");
@@ -86,7 +86,7 @@ void Stpin::stControl(LiquidCrystal_I2C lcd){
             lcd.setCursor(0, 0);
             lcd.print("X: FAIL");}
 
-        if(y > expectedY*0.9 || y < expectedY*1.1){
+        if(y > expectedY*0.9 && y < expectedY*1.1){
             // X printing
             lcd.setCursor(0, 1);
             lcd.print("Y: PASS");
@@ -94,7 +94,7 @@ void Stpin::stControl(LiquidCrystal_I2C lcd){
             lcd.setCursor(0, 1);
             lcd.print("Y: FAIL");}
 
-        if(z > expectedZ*0.9 || z < expectedZ*1.1){
+        if(z > expectedZ*0.9 && z < expectedZ*1.1){
             // X printing
             lcd.setCursor(8, 1);
             lcd.print("Z: PASS");
