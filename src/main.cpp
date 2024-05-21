@@ -44,9 +44,9 @@ void setup() {
   //Button2
   pinMode(8, INPUT); // Reset button
 
-  pinMode(0, INPUT);
-  pinMode(1, INPUT);
-  pinMode(2, INPUT);
+  // pinMode(0, INPUT);
+  // pinMode(1, INPUT);
+  // pinMode(2, INPUT);
   
 }
 
