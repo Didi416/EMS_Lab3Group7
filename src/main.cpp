@@ -30,7 +30,33 @@ ADXL335 accelerometer;
 Pedometer pedometer(0, 1, 2); // Initialize with sensor pins
 Stpin stpin;
 
-void calibrateADXL(int* _x, int* _y, int* _z);
+void calibrateADXL(int* _x, int* _y, int* _z) { // loops takes pointers to _x_y_z as arguments
+    int x, y, z;
+    x = xValue;
+    y = yValue;
+    z = zValue;
+    //int sum_x, sum_y, sum_z;
+    accelerometer.getXYZ(&x, &y, &z);
+    float ax, ay, az;
+    accelerometer.getAcceleration(&ax, &ay, &az); // reads sensor data from adxl and checks if its within range
+    if ((abs(ax) < 0.06) && (abs(ay) < 0.06)) {
+
+        *_x = x;
+        *_y = y;
+        *_z = z;
+    } else if ((abs(ax) < 0.06) && (abs(az) < 0.06)) {
+        *_x = x;
+        *_y = y;
+        *_z = z;
+    } else if ((abs(az) < 0.06) && (abs(ay) < 0.06)) {
+        *_x = x;
+        *_y = y;
+        *_z = z;
+    } else {
+        Serial.println("calibrate error");
+    }
+}
+
 
 
 void setup() {
@@ -131,29 +157,3 @@ delay(10);
   
 }
 
-void calibrateADXL(int* _x, int* _y, int* _z) { // loops takes pointers to _x_y_z as arguments
-    int x, y, z;
-    x = xValue;
-    y = yValue;
-    z = zValue;
-    //int sum_x, sum_y, sum_z;
-    accelerometer.getXYZ(&x, &y, &z);
-    float ax, ay, az;
-    accelerometer.getAcceleration(&ax, &ay, &az); // reads sensor data from adxl and checks if its within range
-    if ((abs(ax) < 0.06) && (abs(ay) < 0.06)) {
-
-        *_x = x;
-        *_y = y;
-        *_z = z;
-    } else if ((abs(ax) < 0.06) && (abs(az) < 0.06)) {
-        *_x = x;
-        *_y = y;
-        *_z = z;
-    } else if ((abs(az) < 0.06) && (abs(ay) < 0.06)) {
-        *_x = x;
-        *_y = y;
-        *_z = z;
-    } else {
-        Serial.println("calibrate error");
-    }
-}
