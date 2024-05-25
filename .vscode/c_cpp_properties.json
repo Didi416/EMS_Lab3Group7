@@ -8,57 +8,33 @@
         {
             "name": "PlatformIO",
             "includePath": [
-<<<<<<< HEAD
                 "c:/Users/Arya/OneDrive - UTS/Documents/GitHub/EMS_Lab3Group7/include",
                 "c:/Users/Arya/OneDrive - UTS/Documents/GitHub/EMS_Lab3Group7/src",
                 "c:/Users/Arya/OneDrive - UTS/Documents/GitHub/EMS_Lab3Group7/.pio/libdeps/uno/LiquidCrystal_I2C",
                 "C:/Users/Arya/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                 "C:/Users/Arya/.platformio/packages/framework-arduino-avr/cores/arduino",
                 "C:/Users/Arya/.platformio/packages/framework-arduino-avr/variants/standard",
+                "c:/Users/Arya/OneDrive - UTS/Documents/GitHub/EMS_Lab3Group7/.pio/libdeps/uno/Unity/src",
                 "C:/Users/Arya/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                 "C:/Users/Arya/.platformio/packages/framework-arduino-avr/libraries/HID/src",
                 "C:/Users/Arya/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
                 "C:/Users/Arya/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
-=======
-                "C:/Users/dyand/Documents/GitHub/EMS_Lab3Group7/include",
-                "C:/Users/dyand/Documents/GitHub/EMS_Lab3Group7/src",
-                "C:/Users/dyand/Documents/GitHub/EMS_Lab3Group7/.pio/libdeps/uno/LiquidCrystal_I2C",
-                "C:/Users/dyand/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
-                "C:/Users/dyand/.platformio/packages/framework-arduino-avr/cores/arduino",
-                "C:/Users/dyand/.platformio/packages/framework-arduino-avr/variants/standard",
-                "C:/Users/dyand/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
-                "C:/Users/dyand/.platformio/packages/framework-arduino-avr/libraries/HID/src",
-                "C:/Users/dyand/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
-                "C:/Users/dyand/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
->>>>>>> b55a089e547f54eadea85e4ee0884d210130bf5c
                 ""
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-<<<<<<< HEAD
                     "c:/Users/Arya/OneDrive - UTS/Documents/GitHub/EMS_Lab3Group7/include",
                     "c:/Users/Arya/OneDrive - UTS/Documents/GitHub/EMS_Lab3Group7/src",
                     "c:/Users/Arya/OneDrive - UTS/Documents/GitHub/EMS_Lab3Group7/.pio/libdeps/uno/LiquidCrystal_I2C",
                     "C:/Users/Arya/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                     "C:/Users/Arya/.platformio/packages/framework-arduino-avr/cores/arduino",
                     "C:/Users/Arya/.platformio/packages/framework-arduino-avr/variants/standard",
+                    "c:/Users/Arya/OneDrive - UTS/Documents/GitHub/EMS_Lab3Group7/.pio/libdeps/uno/Unity/src",
                     "C:/Users/Arya/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                     "C:/Users/Arya/.platformio/packages/framework-arduino-avr/libraries/HID/src",
                     "C:/Users/Arya/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
                     "C:/Users/Arya/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
-=======
-                    "C:/Users/dyand/Documents/GitHub/EMS_Lab3Group7/include",
-                    "C:/Users/dyand/Documents/GitHub/EMS_Lab3Group7/src",
-                    "C:/Users/dyand/Documents/GitHub/EMS_Lab3Group7/.pio/libdeps/uno/LiquidCrystal_I2C",
-                    "C:/Users/dyand/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
-                    "C:/Users/dyand/.platformio/packages/framework-arduino-avr/cores/arduino",
-                    "C:/Users/dyand/.platformio/packages/framework-arduino-avr/variants/standard",
-                    "C:/Users/dyand/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
-                    "C:/Users/dyand/.platformio/packages/framework-arduino-avr/libraries/HID/src",
-                    "C:/Users/dyand/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
-                    "C:/Users/dyand/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
->>>>>>> b55a089e547f54eadea85e4ee0884d210130bf5c
                     ""
                 ]
             },
