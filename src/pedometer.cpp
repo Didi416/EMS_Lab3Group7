@@ -139,15 +139,15 @@ int Pedometer::stepAlgorithm(int x, int y, int z) {
 
   //Send data to the Serial Plotter
   // Serial.print(((stepsCount % 2) * 200) + 1000);
-  Serial.print(" ");
-  Serial.print(stepsCount);
-  Serial.print(" ");
-  Serial.print(upperSensitivity);
-  Serial.print(" ");
-  Serial.print(lowerSensitivity);
-  Serial.print(" ");
-  Serial.print(magnitude);
-  Serial.println();
+  // Serial.print(" ");
+  // Serial.print(stepsCount);
+  // Serial.print(" ");
+  // Serial.print(upperSensitivity);
+  // Serial.print(" ");
+  // Serial.print(lowerSensitivity);
+  // Serial.print(" ");
+  // Serial.print(magnitude);
+  // Serial.println();
 
 
   return stepsCount; // Return the current step count
@@ -157,3 +157,44 @@ void Pedometer::resetStepCount() {
   stepsCount = 0;
 }
 
+void Pedometer::paceIdentification(double cadence, String& msg, unsigned long& ledState) {
+
+    // Check frequency to identify pace
+    if (cadence < 60) {
+        // Most likely stationary or extremely slow walking
+        msg = "Stationary/Slow Pace";
+        ledState = 0; // Turn off paceTrack LED
+    } else if (cadence >= 60 && cadence < 90) {
+        // Slow to average walking cadence
+        msg = "Walking Pace";
+        ledState = 1000; // Turn on paceTrack LED
+    } else if (cadence >= 90 && cadence < 120) {
+        // Brisk walking cadence
+        msg = "Brisk Walking Pace";
+        ledState = 1000; // Turn on paceTrack LED
+    } else if (cadence >= 120 && cadence < 150) {
+        // Jogging pace
+        msg = "Jogging Pace";
+        ledState = 500; // Turn on paceTrack LED
+    } else {
+        // Running cadence
+        msg = "Running Pace";
+        ledState = 200; // Turn on paceTrack LED
+    }
+}
+
+void Pedometer::paceBlink(int freq, unsigned long& newPrevTime){
+  
+    flashcount++;
+    if (flashcount % 2 == 0) {
+      digitalWrite(3,HIGH);
+      digitalWrite(4,HIGH);
+      digitalWrite(5,HIGH);
+    }
+    if (flashcount % 2 != 0) {
+      digitalWrite(3,LOW);
+      digitalWrite(4,LOW);
+      digitalWrite(5,LOW);
+    }
+    newPrevTime = millis();
+}

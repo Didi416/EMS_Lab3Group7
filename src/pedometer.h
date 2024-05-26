@@ -11,6 +11,7 @@ const int ONE_SECOND = 41; // Number of cycles in a second
 const double INITIAL_THRESHOLD = 1070; // Initial threshold value
 const double SENSITIVITY = 160; // Sensitivity for step detection
 
+
 // Pedometer Class Implementation
 class Pedometer {
   public:
@@ -23,6 +24,8 @@ class Pedometer {
     void updateThresholdLevel();
     int stepAlgorithm(int x, int y, int z);
     void resetStepCount();
+    void paceIdentification(double cadence, String& msg, unsigned long& ledState);
+    void paceBlink(int freq, unsigned long& newPrevTime);
 
   private:
     int xPin_, yPin_, zPin_; // Sensor pins
@@ -41,6 +44,7 @@ class Pedometer {
     int windowMin; // Current window min
     int windowMaxIndex; // Index for the max in the window
     int windowMinIndex; // Index for the min in the window
+    int flashcount;
 };
 
 #endif //PEDOMETER_H
