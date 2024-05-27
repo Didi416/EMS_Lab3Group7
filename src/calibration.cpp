@@ -92,7 +92,7 @@ void writeEEPROM() {
 }
 
 void waitForButtonPress() {
-    while (/* Button is not pressed */ false);
+    while (digitalRead(7) = false);
 }
 
 void showCalibrationMessage(char axis, const char* messageFormat) {
