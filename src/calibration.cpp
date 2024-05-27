@@ -1,32 +1,106 @@
-// int xpin = A3;
-// int ypin = A2;
-// int zpin = A1;
-// int xvalue;
-// int yvalue;
-// int zvalue;
+#include "Calibration.h"
+#include <EEPROM.h>
+#include <LiquidCrystal_I2C.h>
 
-// void setup() {
-//     Serial.begin(9600); // Initialize serial communication
-// }
+// Assuming an external LCD object
+extern LiquidCrystal_I2C lcd;
 
-// void loop() {
-//     xvalue = analogRead(xpin);
-//     int x = map(xvalue, 267, 400, -100, 100); // Map analog values to -100 to 100 (adjust with your calibration values)
-//     float xg = static_cast<float>(x) / (-100.00); // Convert mapped value to acceleration in terms of "g"
-//     Serial.print(xg);
-//     Serial.print("g\t");
+// Calibration parameters
+int axisMin[3], axisMax[3];
 
-//     yvalue = analogRead(ypin);
-//     int y = map(yvalue, 272, 406, -100, 100);
-//     float yg = static_cast<float>(y) / (-100.00);
-//     Serial.print(yg);
-//     Serial.print("g\t");
+// Constants
+const int numSamples = 20;
+const unsigned long delayTime = 50;
+const unsigned long messageDisplayTime = 300;
 
-//     zvalue = analogRead(zpin);
-//     int z = map(zvalue, 277, 410, -100, 100);
-//     float zg = static_cast<float>(z) / 100.00;
-//     Serial.print(zg);
-//     Serial.println("g");
+// Buffer for LCD messages
+char lcdBuffer[32];
 
-//     delay(100);
-// }
+// Main calibration function
+int calibrate(){
+    calibrateAxis(axisMin[0], axisMax[0], 'X');
+    calibrateAxis(axisMin[1], axisMax[1], 'Y');
+    calibrateAxis(axisMin[2], axisMax[2], 'Z');
+
+    writeEEPROM();
+    printLCD("Calibration Complete");
+    delay(messageDisplayTime);
+    return 1;
+}
+
+// Function to calibrate a specific axis
+void calibrateAxis(int &minVal, int &maxVal, char axis) {
+    int highSum = 0, lowSum = 0;
+
+    showCalibrationMessage(axis, "-%c\nPosition and press button");
+    waitForButtonPress();
+
+    showCalibrationMessage(axis, "-%c\nCalibrating...");
+    for (int i = 0; i < numSamples; i++) {
+        lowSum += readSensor(axis);
+        delay(delayTime);
+    }
+    minVal = lowSum / numSamples;
+
+    showCalibrationMessage(axis, "+%c\nPosition and press button");
+    waitForButtonPress();
+
+    showCalibrationMessage(axis, "+%c\nCalibrating...");
+    for (int i = 0; i < numSamples; i++) {
+        highSum += readSensor(axis);
+        delay(delayTime);
+    }
+    maxVal = highSum / numSamples;
+
+    showCalibrationMessage(axis, "%c Axis Complete");
+    delay(messageDisplayTime);
+}
+
+// Function to read sensor value based on the specified axis
+int readSensor(char axis) {
+    switch (axis) {
+        case 'X': return analogRead(FILTERED_X_AXIS_PIN);
+        case 'Y': return analogRead(FILTERED_Y_AXIS_PIN);
+        case 'Z': return analogRead(FILTERED_Z_AXIS_PIN);
+        default: return -1;
+    }
+}
+
+int getCalibratedReading(char axis) {
+    int pin, minVal, maxVal;
+    switch (axis) {
+        case 'X': pin = FILTERED_X_AXIS_PIN; minVal = axisMin[0]; maxVal = axisMax[0]; break;
+        case 'Y': pin = FILTERED_Y_AXIS_PIN; minVal = axisMin[1]; maxVal = axisMax[1]; break;
+        case 'Z': pin = FILTERED_Z_AXIS_PIN; minVal = axisMin[2]; maxVal = axisMax[2]; break;
+        default: return -1;
+    }
+    return map(analogRead(pin), 0, 1024, minVal, maxVal);
+}
+
+void readEEPROM() {
+    for (int i = 0; i < 3; i++) {
+        axisMin[i] = EEPROM.read(2 * i);
+        axisMax[i] = EEPROM.read(2 * i + 1);
+    }
+}
+
+void writeEEPROM() {
+    for (int i = 0; i < 3; i++) {
+        EEPROM.write(2 * i, axisMin[i]);
+        EEPROM.write(2 * i + 1, axisMax[i]);
+    }
+}
+
+void waitForButtonPress() {
+    while (/* Button is not pressed */ false);
+}
+
+void showCalibrationMessage(char axis, const char* messageFormat) {
+    sprintf(lcdBuffer, messageFormat, axis);
+    printLCD(lcdBuffer);
+}
+
+void printLCD(const char* message) {
+    lcd.clear();
+    lcd.print(message);
+}

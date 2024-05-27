@@ -1,22 +1,21 @@
-// ADXL335.h
+#ifndef CALIBRATION_H
+#define CALIBRATION_H
 
-#ifndef ADXL335_H
-#define ADXL335_H
+#include <Arduino.h>
 
-#include <Arduino.h> // Include the Arduino library (if not already included)
+#define FILTERED_X_AXIS_PIN A0
+#define FILTERED_Y_AXIS_PIN A1
+#define FILTERED_Z_AXIS_PIN A2
 
-class ADXL335 {
-public:
-    ADXL335(int xPin, int yPin, int zPin);
-    void begin();
-    float getXAcceleration();
-    float getYAcceleration();
-    float getZAcceleration();
+int calibrate();
+void calibrateAxis(int &minVal, int &maxVal, char axis);
+int readSensor(char axis);
+int getCalibratedReading(char axis);
+void readEEPROM();
+void writeEEPROM();
+void waitForButtonPress();
+void showCalibrationMessage(char axis, const char* message);
 
-private:
-    int xpin = A0;
-    int ypin = A1;
-    int zpin = A2;
-};
+extern char lcdBuffer[32];
 
-#endif // ADXL335_H
+#endif // CALIBRATION_H
