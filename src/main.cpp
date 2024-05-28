@@ -92,7 +92,7 @@ void loop() {
   stepCount = int(pedometer.stepAlgorithm(xValue, yValue, zValue)); //determines if a step has been taken based on axis 
 
   if(prevStepCount != stepCount){
-    timeInterval = (currentStepTime - previousStepTime)/2;
+    timeInterval = (currentStepTime - previousStepTime);
     cadence = 60.0/(timeInterval/1000);
     Serial.println(timeInterval);
     Serial.println(cadence);
