@@ -23,6 +23,7 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 // Pedometer pedometer;
 Pedometer pedometer(0, 1, 2); // Initialize with sensor pins A0, A1, and A2
 Stpin stpin;
+Calibration calibration;
 
 unsigned long currentStepTime;
 unsigned long previousStepTime;
@@ -44,6 +45,7 @@ void setup() {
   lcd.setCursor(0, 0);
 
   stpin = Stpin();
+  calibration = Calibration();
   
   //LEDs
   pinMode(3, OUTPUT);
@@ -68,19 +70,18 @@ void setup() {
   pinMode(8, INPUT); // Reset button
   
   // Read calibration data from EEPROM
-  readEEPROM();
+  calibration.readEEPROM();
 }
 
 void loop() {
 
   // Check if the calibration button is pressed
   if (digitalRead(7) == LOW) { // check the button pls
-    calibrate();
+    calibration.calibration();
   }
-
-  xValue = getCalibratedReading('X');
-  yValue = getCalibratedReading('Y');
-  zValue = getCalibratedReading('Z');
+  xValue = calibration.getCalibratedReading('X');
+  yValue = calibration.getCalibratedReading('Y');
+  zValue = calibration.getCalibratedReading('Z');
   
   lcd.setCursor(0, 0);
   lcd.print("Steps: ");

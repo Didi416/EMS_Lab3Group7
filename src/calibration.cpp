@@ -16,8 +16,12 @@ const unsigned long messageDisplayTime = 300;
 // Buffer for LCD messages
 char lcdBuffer[32];
 
+Calibration::Calibration(){
+    
+}
+
 // Main calibration function
-int calibrate(){
+int Calibration::calibration(){
     calibrateAxis(axisMin[0], axisMax[0], 'X');
     calibrateAxis(axisMin[1], axisMax[1], 'Y');
     calibrateAxis(axisMin[2], axisMax[2], 'Z');
@@ -29,7 +33,7 @@ int calibrate(){
 }
 
 // Function to calibrate a specific axis
-void calibrateAxis(int &minVal, int &maxVal, char axis) {
+void Calibration::calibrateAxis(int &minVal, int &maxVal, char axis) {
     int highSum = 0, lowSum = 0;
 
     showCalibrationMessage(axis, "-%c\nPosition and press button");
@@ -57,7 +61,7 @@ void calibrateAxis(int &minVal, int &maxVal, char axis) {
 }
 
 // Function to read sensor value based on the specified axis
-int readSensor(char axis) {
+int Calibration::readSensor(char axis) {
     switch (axis) {
         case 'X': return analogRead(FILTERED_X_AXIS_PIN);
         case 'Y': return analogRead(FILTERED_Y_AXIS_PIN);
@@ -66,7 +70,7 @@ int readSensor(char axis) {
     }
 }
 
-int getCalibratedReading(char axis) {
+double Calibration::getCalibratedReading(char axis) {
     int pin, minVal, maxVal;
     switch (axis) {
         case 'X': pin = FILTERED_X_AXIS_PIN; minVal = axisMin[0]; maxVal = axisMax[0]; break;
@@ -77,30 +81,30 @@ int getCalibratedReading(char axis) {
     return map(analogRead(pin), 0, 1024, minVal, maxVal);
 }
 
-void readEEPROM() {
+void Calibration::readEEPROM() {
     for (int i = 0; i < 3; i++) {
         axisMin[i] = EEPROM.read(2 * i);
         axisMax[i] = EEPROM.read(2 * i + 1);
     }
 }
 
-void writeEEPROM() {
+void Calibration::writeEEPROM() {
     for (int i = 0; i < 3; i++) {
         EEPROM.write(2 * i, axisMin[i]);
         EEPROM.write(2 * i + 1, axisMax[i]);
     }
 }
 
-void waitForButtonPress() {
-    while (digitalRead(7) = false);
+void Calibration::waitForButtonPress() {
+    while (digitalRead(7) == 0);
 }
 
-void showCalibrationMessage(char axis, const char* messageFormat) {
+void Calibration::showCalibrationMessage(char axis, const char* messageFormat) {
     sprintf(lcdBuffer, messageFormat, axis);
     printLCD(lcdBuffer);
 }
 
-void printLCD(const char* message) {
+void Calibration::printLCD(const char* message) {
     lcd.clear();
     lcd.print(message);
 }
