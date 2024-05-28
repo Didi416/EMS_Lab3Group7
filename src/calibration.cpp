@@ -28,7 +28,7 @@ int Calibration::calibrate(){
 
     writeEEPROM();
     lcd.print("Calibration Complete");
-    delay(messageDisplayTime);
+    //delay(messageDisplayTime);
     lcd.clear();
     return 1;
 }
@@ -39,7 +39,7 @@ void Calibration::calibrateAxis(int &minVal, int &maxVal, char axis) {
 
     //showCalibrationMessage
     lcd.print(axis + "- %c\nPosition and press button");
-    waitForButtonPress();
+    //waitForButtonPress();
     lcd.clear();
 
     //showCalibrationMessage
@@ -52,7 +52,7 @@ void Calibration::calibrateAxis(int &minVal, int &maxVal, char axis) {
 
     //showCalibrationMessage
     lcd.print(axis + "+ %c\nPosition and press button");
-    waitForButtonPress();
+    //waitForButtonPress();
     delay(delayTime);
     lcd.clear();
 
@@ -67,7 +67,7 @@ void Calibration::calibrateAxis(int &minVal, int &maxVal, char axis) {
 
     //showCalibrationMessage
     lcd.print(axis + "%c Axis Complete");
-    delay(messageDisplayTime);
+    //delay(messageDisplayTime);
     lcd.clear();
 
 }
