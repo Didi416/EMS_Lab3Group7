@@ -3,10 +3,9 @@
 Stpin::Stpin(){
     // State control of the button
     buttonCounter = 0;
-
-    int xPin_ = 0;
-    int yPin_ = 1;
-    int zPin_ = 2;
+    xPin_ = 0;
+    yPin_ = 1;
+    zPin_ = 2;
 }
 
 void Stpin::stControl(LiquidCrystal_I2C lcd){
