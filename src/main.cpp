@@ -24,6 +24,17 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 Pedometer pedometer(0, 1, 2); // Initialize with sensor pins A0, A1, and A2
 Stpin stpin;
 
+unsigned long currentStepTime;
+unsigned long previousStepTime;
+unsigned long currentBlinkTime;
+unsigned long previousBlinkTime;
+double timeInterval = 0;
+int stepCount;
+int prevStepCount;
+double cadence;
+String paceIdentification;
+unsigned long ledState = 0;
+
 void setup() {
   Serial.begin(9600);
 
@@ -41,6 +52,13 @@ void setup() {
   digitalWrite(3,HIGH);
   digitalWrite(4,HIGH);
   digitalWrite(5,HIGH);
+
+  //Step Pace Identification
+  previousStepTime = millis();
+  previousBlinkTime = millis();
+  prevStepCount = 0;
+  cadence = 1.0;
+  paceIdentification = "Stationary";
 
   //Button1
   pinMode(2, OUTPUT); // Either 5V to gate or 0V to gate  
@@ -66,11 +84,35 @@ void loop() {
   
   lcd.setCursor(0, 0);
   lcd.print("Steps: ");
-  lcd.setCursor(7,0);  
-  lcd.print(int(pedometer.stepAlgorithm(xValue, yValue, zValue))); //determines if a step has been taken based on axis 
+  lcd.setCursor(7,0);
+  currentStepTime = currentBlinkTime = millis();
   
-  pedometer.stepAlgorithm(xValue, yValue, zValue);
+  pedometer.getAxisData(xValue,yValue,zValue);  
+  stepCount = int(pedometer.stepAlgorithm(xValue, yValue, zValue)); //determines if a step has been taken based on axis 
 
+  if(prevStepCount != stepCount){
+    timeInterval = (currentStepTime - previousStepTime)/2;
+    cadence = 60.0/(timeInterval/1000);
+    Serial.println(timeInterval);
+    Serial.println(cadence);
+    pedometer.paceIdentification(cadence, paceIdentification, ledState);
+    prevStepCount = stepCount;
+    previousStepTime = currentStepTime;
+    lcd.clear();
+  }
+  lcd.print(stepCount);
+  lcd.setCursor(0,1);
+  lcd.print(paceIdentification);
+
+  if((currentBlinkTime - previousBlinkTime) > ledState && paceIdentification != "Stationary/Slow Pace"){
+    pedometer.paceBlink(ledState, previousBlinkTime);
+  }
+  else if(paceIdentification == "Stationary/Slow Pace"){
+    digitalWrite(3,HIGH);
+    digitalWrite(4,HIGH);
+    digitalWrite(5,HIGH);
+  }
+  
   if (digitalRead(8) == LOW){
     pedometer.resetStepCount();
     lcd.clear();
