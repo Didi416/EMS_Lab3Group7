@@ -10,7 +10,7 @@ class Calibration {
 public:
 
     Calibration();
-    int calibration();
+    int calibrate();
     void calibrateAxis(int &minVal, int &maxVal, char axis);
     int readSensor(char axis);
     double getCalibratedReading(char axis);

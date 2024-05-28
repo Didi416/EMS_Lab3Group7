@@ -10,18 +10,18 @@ int axisMin[3], axisMax[3];
 
 // Constants
 const int numSamples = 20;
-const unsigned long delayTime = 50;
-const unsigned long messageDisplayTime = 300;
+const unsigned long delayTime = 1000;
+const unsigned long messageDisplayTime = 2000;
 
 // Buffer for LCD messages
 char lcdBuffer[32];
 
 Calibration::Calibration(){
-    
+
 }
 
 // Main calibration function
-int Calibration::calibration(){
+int Calibration::calibrate(){
     calibrateAxis(axisMin[0], axisMax[0], 'X');
     calibrateAxis(axisMin[1], axisMax[1], 'Y');
     calibrateAxis(axisMin[2], axisMax[2], 'Z');
@@ -29,6 +29,7 @@ int Calibration::calibration(){
     writeEEPROM();
     printLCD("Calibration Complete");
     delay(messageDisplayTime);
+    lcd.clear();
     return 1;
 }
 
@@ -36,24 +37,24 @@ int Calibration::calibration(){
 void Calibration::calibrateAxis(int &minVal, int &maxVal, char axis) {
     int highSum = 0, lowSum = 0;
 
-    showCalibrationMessage(axis, "-%c\nPosition and press button");
+    showCalibrationMessage(axis, "- %c\nPosition and press button");
     waitForButtonPress();
 
-    showCalibrationMessage(axis, "-%c\nCalibrating...");
+    showCalibrationMessage(axis, "- %c\nCalibrating...");
     for (int i = 0; i < numSamples; i++) {
         lowSum += readSensor(axis);
-        delay(delayTime);
     }
+    delay(delayTime);
     minVal = lowSum / numSamples;
 
-    showCalibrationMessage(axis, "+%c\nPosition and press button");
+    showCalibrationMessage(axis, "+ %c\nPosition and press button");
     waitForButtonPress();
-
-    showCalibrationMessage(axis, "+%c\nCalibrating...");
+    delay(delayTime);
+    showCalibrationMessage(axis, "+ %c\nCalibrating...");
     for (int i = 0; i < numSamples; i++) {
         highSum += readSensor(axis);
-        delay(delayTime);
     }
+    delay(delayTime);
     maxVal = highSum / numSamples;
 
     showCalibrationMessage(axis, "%c Axis Complete");

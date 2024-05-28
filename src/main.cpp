@@ -17,7 +17,6 @@ const int testReadZ = A2;
 
 bool button1Pressed = false;
 
-
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 // Pedometer pedometer;
@@ -60,7 +59,7 @@ void setup() {
   previousBlinkTime = millis();
   prevStepCount = 0;
   cadence = 1.0;
-  paceIdentification = "Stationary";
+  paceIdentification = "Stationary/Slow Pace";
 
   //Button1
   pinMode(2, OUTPUT); // Either 5V to gate or 0V to gate  
@@ -77,11 +76,12 @@ void loop() {
 
   // Check if the calibration button is pressed
   if (digitalRead(7) == LOW) { // check the button pls
-    calibration.calibration();
+    stpin.stControl(lcd);
+    calibration.calibrate();
+    xValue = calibration.getCalibratedReading('X');
+    yValue = calibration.getCalibratedReading('Y');
+    zValue = calibration.getCalibratedReading('Z');
   }
-  xValue = calibration.getCalibratedReading('X');
-  yValue = calibration.getCalibratedReading('Y');
-  zValue = calibration.getCalibratedReading('Z');
   
   lcd.setCursor(0, 0);
   lcd.print("Steps: ");
@@ -118,13 +118,11 @@ void loop() {
     pedometer.resetStepCount();
     lcd.clear();
     lcd.setCursor(0, 0);
-    lcd.print("RESET");
+    lcd.print("RESET STEPS");
     delay(1000);
     lcd.setCursor(0,0);
     lcd.clear();
   }
-  
-  stpin.stControl(lcd);
 
   delay(10);
 }

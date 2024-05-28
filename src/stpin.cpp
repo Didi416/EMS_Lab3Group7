@@ -11,16 +11,16 @@ Stpin::Stpin(){
 
 void Stpin::stControl(LiquidCrystal_I2C lcd){
     // Need to account for the inversion that takes place
-    if(digitalRead(7) == 0){
-        buttonCounter++;
-        delay(500);
-    }
+    // if(digitalRead(7) == 0){
+    //     buttonCounter++;
+    //     delay(500);
+    // }
        
-    if (buttonCounter == 0) {
-        digitalWrite(2, HIGH); //st off
-    }
+    // if (buttonCounter == 0) {
+    //     digitalWrite(2, HIGH); //st off
+    // }
 
-    if (buttonCounter == 1) {
+    // if (buttonCounter == 1) {
 
         double x,y,z;
         getAxisData(x,y,z);
@@ -45,14 +45,13 @@ void Stpin::stControl(LiquidCrystal_I2C lcd){
         delay(2000);
         lcd.clear();
         buttonCounter = 0;
-    }
+    // }
         // If the button is pressed for a second time exit ST routine
-    if(buttonCounter == 2){
-        buttonCounter = 0;     // Reset the button counter for states
-        lcd.clear();
-    }
+    // if(buttonCounter == 2){
+    //     buttonCounter = 0;     // Reset the button counter for states
+    //     lcd.clear();
+    // }
 }
-
 
 void Stpin::getAxisData(double &x, double &y, double &z) {
   x = analogRead(xPin_); // Read sensor data
