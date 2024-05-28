@@ -40,6 +40,7 @@ void Calibration::calibrateAxis(int &minVal, int &maxVal, char axis) {
     //showCalibrationMessage
     lcd.print(axis + "- %c\nPosition and press button");
     waitForButtonPress();
+    lcd.clear();
 
     //showCalibrationMessage
     lcd.print(axis + "- %c\nCalibrating...");
@@ -53,7 +54,9 @@ void Calibration::calibrateAxis(int &minVal, int &maxVal, char axis) {
     lcd.print(axis + "+ %c\nPosition and press button");
     waitForButtonPress();
     delay(delayTime);
-    
+    lcd.clear();
+
+
     //showCalibrationMessage
     lcd.print(axis + "+ %c\nCalibrating...");
     for (int i = 0; i < numSamples; i++) {
@@ -65,6 +68,8 @@ void Calibration::calibrateAxis(int &minVal, int &maxVal, char axis) {
     //showCalibrationMessage
     lcd.print(axis + "%c Axis Complete");
     delay(messageDisplayTime);
+    lcd.clear();
+
 }
 
 // Function to read sensor value based on the specified axis
@@ -109,6 +114,8 @@ void Calibration::waitForButtonPress() {
 void Calibration::showCalibrationMessage(char axis, const char* messageFormat) {
     sprintf(lcdBuffer, messageFormat, axis);
     printLCD(lcdBuffer);
+    lcd.clear();
+
 }
 
 void Calibration::printLCD(const char* message) {
