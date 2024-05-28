@@ -27,6 +27,7 @@ int Calibration::calibrate(){
     calibrateAxis(axisMin[2], axisMax[2], 'Z');
 
     writeEEPROM();
+    lcd.setCursor(0,0);
     lcd.print("Calibration Complete");
     //delay(messageDisplayTime);
     lcd.clear();
@@ -38,8 +39,9 @@ void Calibration::calibrateAxis(int &minVal, int &maxVal, char axis) {
     int highSum = 0, lowSum = 0;
 
     //showCalibrationMessage
-   // lcd.print(axis + "- %c\nPosition and press button");
+    //lcd.print(axis + "- %c\nPosition and press button");
     //waitForButtonPress();
+    lcd.setCursor(0,0);
     lcd.clear();
 
     //showCalibrationMessage
@@ -49,10 +51,13 @@ void Calibration::calibrateAxis(int &minVal, int &maxVal, char axis) {
     }
     delay(delayTime);
     minVal = lowSum / numSamples;
+    lcd.setCursor(0,0);
     lcd.clear();
 
     //showCalibrationMessage
     lcd.print(axis + "+ %c\nPosition and press button");
+    lcd.setCursor(0,0);
+
     //waitForButtonPress();
     delay(delayTime);
     lcd.clear();
@@ -65,11 +70,13 @@ void Calibration::calibrateAxis(int &minVal, int &maxVal, char axis) {
     }
     delay(delayTime);
     maxVal = highSum / numSamples;
+    lcd.setCursor(0,0);
     lcd.clear();
 
     //showCalibrationMessage
     lcd.print(axis + "%c Axis Complete");
     //delay(messageDisplayTime);
+    lcd.setCursor(0,0);
     lcd.clear();
 
 }
@@ -115,6 +122,7 @@ void Calibration::waitForButtonPress() {
 
 void Calibration::showCalibrationMessage(char axis, const char* messageFormat) {
     sprintf(lcdBuffer, messageFormat, axis);
+    lcd.setCursor(0,0);
     printLCD(lcdBuffer);
     lcd.clear();
 
@@ -122,6 +130,7 @@ void Calibration::showCalibrationMessage(char axis, const char* messageFormat) {
 
 void Calibration::printLCD(const char* message) {
     lcd.clear();
+    lcd.setCursor(0,0);
     lcd.print(message);
     lcd.clear();
 }
