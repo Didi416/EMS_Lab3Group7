@@ -27,7 +27,7 @@ int Calibration::calibrate(){
     calibrateAxis(axisMin[2], axisMax[2], 'Z');
 
     writeEEPROM();
-    printLCD("Calibration Complete");
+    lcd.print("Calibration Complete");
     delay(messageDisplayTime);
     lcd.clear();
     return 1;
@@ -38,11 +38,11 @@ void Calibration::calibrateAxis(int &minVal, int &maxVal, char axis) {
     int highSum = 0, lowSum = 0;
 
     //showCalibrationMessage
-    lcd.print(axis, "- %c\nPosition and press button");
+    lcd.print(axis + "- %c\nPosition and press button");
     waitForButtonPress();
 
     //showCalibrationMessage
-    lcd.print(axis, "- %c\nCalibrating...");
+    lcd.print(axis + "- %c\nCalibrating...");
     for (int i = 0; i < numSamples; i++) {
         lowSum += readSensor(axis);
     }
@@ -50,12 +50,12 @@ void Calibration::calibrateAxis(int &minVal, int &maxVal, char axis) {
     minVal = lowSum / numSamples;
 
     //showCalibrationMessage
-    lcd.print(axis, "+ %c\nPosition and press button");
+    lcd.print(axis + "+ %c\nPosition and press button");
     waitForButtonPress();
     delay(delayTime);
     
     //showCalibrationMessage
-    lcd.print(axis, "+ %c\nCalibrating...");
+    lcd.print(axis + "+ %c\nCalibrating...");
     for (int i = 0; i < numSamples; i++) {
         highSum += readSensor(axis);
     }
@@ -63,7 +63,7 @@ void Calibration::calibrateAxis(int &minVal, int &maxVal, char axis) {
     maxVal = highSum / numSamples;
 
     //showCalibrationMessage
-    lcd.print(axis, "%c Axis Complete");
+    lcd.print(axis + "%c Axis Complete");
     delay(messageDisplayTime);
 }
 
