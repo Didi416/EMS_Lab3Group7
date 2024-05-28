@@ -38,7 +38,7 @@ void Calibration::calibrateAxis(int &minVal, int &maxVal, char axis) {
     int highSum = 0, lowSum = 0;
 
     //showCalibrationMessage
-    lcd.print(axis + "- %c\nPosition and press button");
+   // lcd.print(axis + "- %c\nPosition and press button");
     //waitForButtonPress();
     lcd.clear();
 
@@ -49,6 +49,7 @@ void Calibration::calibrateAxis(int &minVal, int &maxVal, char axis) {
     }
     delay(delayTime);
     minVal = lowSum / numSamples;
+    lcd.clear();
 
     //showCalibrationMessage
     lcd.print(axis + "+ %c\nPosition and press button");
@@ -64,6 +65,7 @@ void Calibration::calibrateAxis(int &minVal, int &maxVal, char axis) {
     }
     delay(delayTime);
     maxVal = highSum / numSamples;
+    lcd.clear();
 
     //showCalibrationMessage
     lcd.print(axis + "%c Axis Complete");
@@ -121,4 +123,5 @@ void Calibration::showCalibrationMessage(char axis, const char* messageFormat) {
 void Calibration::printLCD(const char* message) {
     lcd.clear();
     lcd.print(message);
+    lcd.clear();
 }
