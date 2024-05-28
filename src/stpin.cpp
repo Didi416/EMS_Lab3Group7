@@ -33,15 +33,15 @@ void Stpin::stControl(LiquidCrystal_I2C lcd){
 
         // X printing
         lcd.setCursor(1, 1);
-        lcd.print(int(x));
+        lcd.print((x));
 
         // Y printing
         lcd.setCursor(6, 1);
-        lcd.print(int(y));
+        lcd.print((y));
 
         // Z printing
         lcd.setCursor(11, 1);
-        lcd.print(int(z));
+        lcd.print((z));
         delay(2000);
         lcd.clear();
         buttonCounter = 0;
