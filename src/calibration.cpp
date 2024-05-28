@@ -37,27 +37,33 @@ int Calibration::calibrate(){
 void Calibration::calibrateAxis(int &minVal, int &maxVal, char axis) {
     int highSum = 0, lowSum = 0;
 
-    showCalibrationMessage(axis, "- %c\nPosition and press button");
+    //showCalibrationMessage
+    lcd.print(axis, "- %c\nPosition and press button");
     waitForButtonPress();
 
-    showCalibrationMessage(axis, "- %c\nCalibrating...");
+    //showCalibrationMessage
+    lcd.print(axis, "- %c\nCalibrating...");
     for (int i = 0; i < numSamples; i++) {
         lowSum += readSensor(axis);
     }
     delay(delayTime);
     minVal = lowSum / numSamples;
 
-    showCalibrationMessage(axis, "+ %c\nPosition and press button");
+    //showCalibrationMessage
+    lcd.print(axis, "+ %c\nPosition and press button");
     waitForButtonPress();
     delay(delayTime);
-    showCalibrationMessage(axis, "+ %c\nCalibrating...");
+    
+    //showCalibrationMessage
+    lcd.print(axis, "+ %c\nCalibrating...");
     for (int i = 0; i < numSamples; i++) {
         highSum += readSensor(axis);
     }
     delay(delayTime);
     maxVal = highSum / numSamples;
 
-    showCalibrationMessage(axis, "%c Axis Complete");
+    //showCalibrationMessage
+    lcd.print(axis, "%c Axis Complete");
     delay(messageDisplayTime);
 }
 
