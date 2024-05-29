@@ -22,61 +22,94 @@ Calibration::Calibration(){
 
 // Main calibration function
 int Calibration::calibrate(){
-    calibrateAxis(axisMin[0], axisMax[0], 'X');
-    calibrateAxis(axisMin[1], axisMax[1], 'Y');
-    calibrateAxis(axisMin[2], axisMax[2], 'Z');
+    delay(2000);
+    calibrateAxisX(axisMin[0], axisMax[0]);
+    calibrateAxisY(axisMin[1], axisMax[1]);
+    calibrateAxisZ(axisMin[2], axisMax[2]);
 
     writeEEPROM();
-    lcd.setCursor(0,0);
-    lcd.print("Calibration Complete");
+    
     //delay(messageDisplayTime);
     lcd.clear();
     return 1;
 }
 
 // Function to calibrate a specific axis
-void Calibration::calibrateAxis(int &minVal, int &maxVal, char axis) {
+void Calibration::calibrateAxisX(int &minVal, int &maxVal) {
     int highSum = 0, lowSum = 0;
 
-    //showCalibrationMessage
-    //lcd.print(axis + "- %c\nPosition and press button");
-    //waitForButtonPress();
-    lcd.setCursor(0,0);
     lcd.clear();
 
-    //showCalibrationMessage
-    lcd.print(axis + "- %c\nCalibrating...");
+    lcd.setCursor(0,0);
+    lcd.print("X - Calibrating");
     for (int i = 0; i < numSamples; i++) {
-        lowSum += readSensor(axis);
+        lowSum += readSensor('X');
     }
     delay(delayTime);
     minVal = lowSum / numSamples;
-    lcd.setCursor(0,0);
-    lcd.clear();
 
-    //showCalibrationMessage
-    lcd.print(axis + "+ %c\nPosition and press button");
-    lcd.setCursor(0,0);
-
-    //waitForButtonPress();
-    delay(delayTime);
-    lcd.clear();
-
-
-    //showCalibrationMessage
-    lcd.print(axis + "+ %c\nCalibrating...");
     for (int i = 0; i < numSamples; i++) {
-        highSum += readSensor(axis);
+        highSum += readSensor('X');
     }
     delay(delayTime);
     maxVal = highSum / numSamples;
+
+    lcd.clear();
     lcd.setCursor(0,0);
+
+    lcd.print("XAxis Complete");
     lcd.clear();
 
-    //showCalibrationMessage
-    lcd.print(axis + "%c Axis Complete");
-    //delay(messageDisplayTime);
+}
+void Calibration::calibrateAxisY(int &minVal, int &maxVal) {
+    int highSum = 0, lowSum = 0;
+
+    lcd.clear();
+
     lcd.setCursor(0,0);
+    lcd.print("Y - Calibrating");
+    for (int i = 0; i < numSamples; i++) {
+        lowSum += readSensor('Y');
+    }
+    delay(delayTime);
+    minVal = lowSum / numSamples;
+
+    for (int i = 0; i < numSamples; i++) {
+        highSum += readSensor('Y');
+    }
+    delay(delayTime);
+    maxVal = highSum / numSamples;
+
+    lcd.clear();
+    lcd.setCursor(0,0);
+
+    lcd.print("YAxis Complete");
+    lcd.clear();
+
+}
+void Calibration::calibrateAxisZ(int &minVal, int &maxVal) {
+    int highSum = 0, lowSum = 0;
+
+    lcd.clear();
+
+    lcd.setCursor(0,0);
+    lcd.print("Z - Calibrating");
+    for (int i = 0; i < numSamples; i++) {
+        lowSum += readSensor('Z');
+    }
+    delay(delayTime);
+    minVal = lowSum / numSamples;
+
+    for (int i = 0; i < numSamples; i++) {
+        highSum += readSensor('Z');
+    }
+    delay(delayTime);
+    maxVal = highSum / numSamples;
+
+    lcd.clear();
+    lcd.setCursor(0,0);
+
+    lcd.print("ZAxis Complete");
     lcd.clear();
 
 }

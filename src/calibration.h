@@ -11,7 +11,9 @@ public:
 
     Calibration();
     int calibrate();
-    void calibrateAxis(int &minVal, int &maxVal, char axis);
+    void calibrateAxisX(int &minVal, int &maxVal);
+    void calibrateAxisY(int &minVal, int &maxVal);
+    void calibrateAxisZ(int &minVal, int &maxVal);
     int readSensor(char axis);
     double getCalibratedReading(char axis);
     void readEEPROM();

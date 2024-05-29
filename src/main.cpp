@@ -59,7 +59,7 @@ void setup() {
   previousBlinkTime = millis();
   prevStepCount = 0;
   cadence = 1.0;
-  paceIdentification = "Stationary/Slow Pace";
+  paceIdentification = "Stationary/Slow";
 
   //Button1
   pinMode(2, OUTPUT); // Either 5V to gate or 0V to gate  
@@ -81,6 +81,12 @@ void loop() {
     xValue = calibration.getCalibratedReading('X');
     yValue = calibration.getCalibratedReading('Y');
     zValue = calibration.getCalibratedReading('Z');
+    lcd.setCursor(0,0);
+    lcd.print("Calibration");
+    lcd.setCursor(0,1);
+    lcd.print("Complete");
+    delay(2000);
+    lcd.clear();
   }
   
   lcd.setCursor(0, 0);
@@ -108,7 +114,7 @@ void loop() {
   if((currentBlinkTime - previousBlinkTime) > ledState && paceIdentification != "Stationary/Slow Pace"){
     pedometer.paceBlink(ledState, previousBlinkTime);
   }
-  else if(paceIdentification == "Stationary/Slow Pace"){
+  else if(paceIdentification == "Stationary/Slow"){
     digitalWrite(3,HIGH);
     digitalWrite(4,HIGH);
     digitalWrite(5,HIGH);

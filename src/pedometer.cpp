@@ -159,7 +159,7 @@ void Pedometer::paceIdentification(double cadence, String& msg, unsigned long& l
     // Check frequency to identify pace
     if (cadence < 60) {
         // Most likely stationary or extremely slow walking
-        msg = "Stationary/Slow Pace";
+        msg = "Stationary/Slow";
         ledState = 0; // Turn off paceTrack LED
     } else if (cadence >= 60 && cadence < 90) {
         // Slow to average walking cadence
